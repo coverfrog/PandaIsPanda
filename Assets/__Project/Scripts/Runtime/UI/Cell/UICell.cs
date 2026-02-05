@@ -1,4 +1,5 @@
 ﻿using System;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -12,6 +13,9 @@ namespace PandaIsPanda
         [SerializeField] private Image m_imgBg;
         [Space] 
         [SerializeField] private UIItem m_uiItem;
+
+        public RectTransform Rt => m_rt;
+
         
         private RectTransform m_rtParent;
         
@@ -57,10 +61,13 @@ namespace PandaIsPanda
             return this;
         }
 
-        public UICell SetAnchorPosition(Cell _, Vector2 screenPos)
+        public UICell SetPositionByScreen(Cell _, Vector2 screenPos, float duration)
         {
-            if (m_rt && RectTransformUtility.ScreenPointToLocalPointInRectangle(m_rtParent, screenPos, null, out Vector2 localPos)) 
-                m_rt.anchoredPosition = localPos;
+            if (m_rt && RectTransformUtility.ScreenPointToLocalPointInRectangle(m_rtParent, screenPos, null,
+                    out Vector2 localPos))
+            {
+                m_rt.DOAnchorPos(localPos, duration, true).SetEase(Ease.OutQuad);
+            }
             return this;
         }
         

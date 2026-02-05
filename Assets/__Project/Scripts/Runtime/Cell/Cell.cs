@@ -16,6 +16,8 @@ namespace PandaIsPanda
 
         public Item Item => m_item;
 
+        public RectTransform Rt => m_uiCell?.Rt;
+
         public Cell(int row, int column)
         {
             m_row = row;
@@ -37,9 +39,9 @@ namespace PandaIsPanda
             return this;
         }
 
-        public Cell SetAnchorPosition(Vector2 screenPos)
+        public Cell SetPositionByScreen(Vector2 screenPos, float duration = 0.1f)
         {
-            if (m_uiCell) m_uiCell.SetAnchorPosition(this, screenPos);
+            if (m_uiCell) m_uiCell.SetPositionByScreen(this, screenPos, duration);
             return this;
         }
 

@@ -12,6 +12,9 @@ namespace PandaIsPanda
         
         private Cell[,] m_grid = new Cell[9, 7];
         private CellCursor m_cursor;
+
+        private bool m_isTrack;
+        private Vector2 m_inputScreenPos;
         
         public void Init()
         {
@@ -125,7 +128,7 @@ namespace PandaIsPanda
         {
             if (isClick && TryFindCell(screenPos, out Cell cell))
             {
-                OnCellClickIn(cell);
+                OnCellClickIn(screenPos, cell);
             }
 
             else
@@ -136,18 +139,37 @@ namespace PandaIsPanda
 
         private void OnPointerMove(Vector2 screenPos, Vector2 delta)
         {
-            m_cursor.SetAnchorPosition(screenPos);
+            if (m_cursor.Item == null)
+                return;
+            
+            if (m_isTrack)
+            {
+                m_cursor.SetPositionByScreen(screenPos);
+                return;
+            }
+            
+            float distance = Vector2.Distance(m_inputScreenPos, screenPos);
+            if (distance < 40.0f)
+                return;
+
+            m_isTrack = true;
         }
 
-        private void OnCellClickIn(Cell cell)
+        private void OnCellClickIn(Vector2 screenPos, Cell cell)
         {
+            m_isTrack = false;
+            m_inputScreenPos = screenPos;
+            
             if (cell.Item == null)
                 return;
 
+            
+            
             m_cursor
-                .SetSelection(cell)                  // 커서에 현재 선택한 Cell 저장
-                .SetItem(cell.Item.DeepClone())      // 커서에 현재 아이템을 복사
-                .SetActive(true);                    // 커서 활성화 
+                .SetSelection(cell)                          // 커서에 현재 선택한 Cell 저장
+                .SetItem(cell.Item.DeepClone())              // 커서에 현재 아이템을 복사
+                .SetPositionByScreen(RectTransformUtility.WorldToScreenPoint(null, cell.Rt.position), 0.0f) // Cell 위치로 이동 ( Cursor 인 것처럼 보이게 하기 위함 )
+                .SetActive(true);                            // 커서 활성화 
             
             cell.SetEnableIcon(this, false); // 기존 Cell 이미지는 비 활성화
         }
