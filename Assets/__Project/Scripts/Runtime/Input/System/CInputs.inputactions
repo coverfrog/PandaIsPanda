@@ -1,0 +1,35 @@
+{
+    "version": 1,
+    "name": "CInputs",
+    "maps": [
+        {
+            "name": "Board",
+            "id": "fcdfb044-3934-43c9-a897-4e6ea1624f91",
+            "actions": [
+                {
+                    "name": "LeftClick",
+                    "type": "Button",
+                    "id": "0d30514a-bfd7-4287-a244-9bd9fd43781f",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "66d29d19-95cc-4d18-94c2-1cadc69f4127",
+                    "path": "<Pointer>/press",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LeftClick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
