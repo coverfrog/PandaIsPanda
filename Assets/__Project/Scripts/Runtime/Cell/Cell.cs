@@ -56,6 +56,12 @@ namespace PandaIsPanda
             if (m_uiCell) m_uiCell.SetEnableIcon(this, enable);
             return this;
         }
+        
+        public Cell SetEnableFocus(Board _, bool enable)
+        {
+            if (m_uiCell) m_uiCell.SetEnableFocus(this, enable);
+            return this;
+        }
 
         #endregion
 

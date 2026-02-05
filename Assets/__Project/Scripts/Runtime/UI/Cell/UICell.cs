@@ -11,6 +11,7 @@ namespace PandaIsPanda
         [Header("# References")] 
         [SerializeField] private RectTransform m_rt;
         [SerializeField] private Image m_imgBg;
+        [SerializeField] private Image m_imgFocus;
         [Space] 
         [SerializeField] private UIItem m_uiItem;
 
@@ -58,6 +59,12 @@ namespace PandaIsPanda
         public UICell SetEnableIcon(Cell _, bool enable)
         {
             if (m_uiItem) m_uiItem.SetEnableIcon(enable);
+            return this;
+        }
+
+        public UICell SetEnableFocus(Cell _, bool enable)
+        {
+            if (m_imgFocus) m_imgFocus.enabled = enable;
             return this;
         }
 

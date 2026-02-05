@@ -12,6 +12,16 @@ namespace PandaIsPanda
             m_board = FindAnyObjectByType<Board>();
         }
 
+        private void Update()
+        {
+#if UNITY_EDITOR
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                m_board.AddItem();
+            }
+#endif
+        }
+
         private void OnEnable()
         {
             m_board.Init();

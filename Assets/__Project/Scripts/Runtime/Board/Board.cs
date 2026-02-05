@@ -42,12 +42,14 @@ namespace PandaIsPanda
                 {
                     cell.SetUICell(this, uiCell) // UI 부착
                         .SetItem(null) // 아이템 비우기
-                        .SetEnableIcon(this, false);
+                        .SetEnableIcon(this, false)
+                        .SetEnableFocus(this, false);
                 },
                 onCursorCreated: (cursor, uiCursor) =>
                 {
                     cursor.SetUICell(this, uiCursor) // UI 부착
                         .SetItem(null) // 아이템 비우기
+                        .SetEnableFocus(this, false)
                         .SetActive(false); // 비활성화
                 });
             
@@ -153,6 +155,7 @@ namespace PandaIsPanda
                 return;
 
             m_isTrack = true;
+            m_cursor.Selection.SetEnableFocus(this, false);
         }
 
         private void OnCellClickIn(Vector2 screenPos, Cell cell)
@@ -163,7 +166,11 @@ namespace PandaIsPanda
             if (cell.Item == null)
                 return;
 
-            
+            if (m_cursor.Selection != null &&
+                m_cursor.Selection != cell)
+            {
+                m_cursor.Selection.SetEnableFocus(this, false);
+            }
             
             m_cursor
                 .SetSelection(cell)                          // 커서에 현재 선택한 Cell 저장
@@ -171,7 +178,9 @@ namespace PandaIsPanda
                 .SetPositionByScreen(RectTransformUtility.WorldToScreenPoint(null, cell.Rt.position), 0.0f) // Cell 위치로 이동 ( Cursor 인 것처럼 보이게 하기 위함 )
                 .SetActive(true);                            // 커서 활성화 
             
-            cell.SetEnableIcon(this, false); // 기존 Cell 이미지는 비 활성화
+            cell
+                .SetEnableIcon(this, false) // 기존 Cell 이미지는 비 활성화
+                .SetEnableFocus(this, true); 
         }
 
         private void OnCellClickOut(Vector2 screenPos)
@@ -198,14 +207,16 @@ namespace PandaIsPanda
 
             if (finedCell.Item == null) // 빈 칸으로 움직인 경우
             {
-                finedCell.SetItem(m_cursor.Item.DeepClone())
-                         .SetEnableIcon(this, true);
+                finedCell
+                    .SetItem(m_cursor.Item.DeepClone())
+                    .SetEnableIcon(this, true);
                 
                 m_cursor
                     .SetItem(null);
                 m_cursor.Selection
                     .SetItem(null)
-                    .SetEnableIcon(this, false);
+                    .SetEnableIcon(this, false)
+                    .SetEnableFocus(this, false);
             }
             
             else // 아이템은 존재
@@ -244,15 +255,19 @@ namespace PandaIsPanda
                     ItemConstant next = m_resItemConstantTable.ConstList.FirstOrDefault(x => x.Id == finedCell.Item.Constant.MergedId);
                     Item nextItem = new Item(next);
                     
-                    // 기존 Cell은 비우기
+                    // 신규 아이템 적용
+                    finedCell.SetItem(nextItem)
+                        .SetEnableIcon(this, true)
+                        .SetEnableFocus(this, true);
+                    
+                    // 기존 Cell은 비우기, 새롭게 Merge 된 Item을 선택
                     m_cursor.Selection
                         .SetItem(null)
                         .SetEnableIcon(this, false);
-                    m_cursor.SetItem(null);
                     
-                    // 신규 아이템 적용
-                    finedCell.SetItem(nextItem)
-                        .SetEnableIcon(this, true);
+                    m_cursor
+                        .SetSelection(finedCell)
+                        .SetItem(null);
                 }
             }
         }
