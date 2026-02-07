@@ -7,11 +7,8 @@ namespace PandaIsPanda
     public class Item : IDeepClone<Item>
     {
         [SerializeField] private ItemConstant m_constant;
-        [SerializeField] private ulong m_id;
         
         public ItemConstant Constant => m_constant;
-        
-        public ulong Id => m_id;
         
         public Item(ItemConstant constant)
         {

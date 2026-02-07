@@ -52,10 +52,7 @@ namespace PandaIsPanda
                         .SetEnableFocus(this, false)
                         .SetActive(false); // 비활성화
                 });
-            
-            // 0 번째 인덱스에 아이템 배치
-            AddItem();
-            
+         
             // 입력 값 수신
             InputManager inputManager = FindAnyObjectByType<InputManager>();
             
@@ -83,6 +80,75 @@ namespace PandaIsPanda
                 .SetEnableIcon(this, true);
         }
 
+        public BoardData ToData()
+        {
+            int rowLength = m_grid.GetLength(0);
+            int columnLength = m_grid.GetLength(1);
+
+            ulong[,] grid = new ulong[rowLength, columnLength];
+            
+            for (int r = 0; r < rowLength; r++)
+            {
+                for (int c = 0; c < columnLength; c++)
+                {
+                    var item = m_grid[r, c].Item;
+                    grid[r, c] = item != null ? item.Constant.Id : 0;
+                }
+            }
+
+            var selection = m_cursor.Selection;
+            
+            int selectionRow = -1;
+            int selectionColumn = -1;
+
+            if (selection!= null)
+            {
+                selectionRow = selection.Row;
+                selectionColumn = selection.Column;
+            }
+            
+            return new BoardData()
+            {
+                grid = grid,
+                selectionRow = selectionRow,
+                selectionColumn = selectionColumn,
+            };
+        }
+
+        public void LoadData(BoardData data)
+        {
+            var grid = data.grid;
+            
+            int rowLength = grid.GetLength(0);
+            int columnLength = grid.GetLength(1);
+            
+            for (int r = 0; r < rowLength; r++)
+            {
+                for (int c = 0; c < columnLength; c++)
+                {
+                    var cell = m_grid[r, c];
+                    var id = grid[r, c];
+                    
+                    if (id == 0)
+                        continue;
+
+                    var itemData = m_resItemConstantTable.ConstList.FirstOrDefault(x => x.Id == id);
+                    cell
+                        .SetItem(new Item(itemData))
+                        .SetEnableIcon(this, true);
+                }
+            }
+
+            if (data.selectionColumn == -1 || data.selectionRow == -1)
+                return;
+            
+            var selected = m_grid[data.selectionRow, data.selectionColumn]
+                .SetEnableFocus(this, true);
+
+            m_cursor.SetSelection(selected);
+            m_uiBoard.SetItemSelection(selected.Item);
+        }
+        
         private bool TryFindEmptyCell(out Cell cell)
         {
             cell = null;
@@ -181,6 +247,8 @@ namespace PandaIsPanda
             cell
                 .SetEnableIcon(this, false) // 기존 Cell 이미지는 비 활성화
                 .SetEnableFocus(this, true); 
+            
+            m_uiBoard.SetItemSelection(cell.Item);
         }
 
         private void OnCellClickOut(Vector2 screenPos)
@@ -194,8 +262,9 @@ namespace PandaIsPanda
             {
                 m_cursor
                     .SetItem(null);
-                m_cursor
-                    .Selection.SetEnableIcon(this, true);
+                m_cursor.Selection
+                    .SetEnableIcon(this, true)
+                    .SetEnableFocus(this, true);
                 
                 return;
             }
@@ -283,6 +352,8 @@ namespace PandaIsPanda
                     m_cursor
                         .SetSelection(finedCell)
                         .SetItem(null);
+                    
+                    m_uiBoard.SetItemSelection(nextItem);
                 }
             }
         }

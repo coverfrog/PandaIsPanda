@@ -9,6 +9,7 @@ namespace PandaIsPanda
         [Header("# References")] 
         [SerializeField] private RectTransform m_rt;
         [SerializeField] private GridLayoutGroup m_gridLayoutGroup;
+        [SerializeField] private UIItem m_uiItemSelection;
         
         [Header("# Res")]
         [SerializeField] private UICell m_resUICell;
@@ -71,6 +72,23 @@ namespace PandaIsPanda
                 
                 onCursorCreated?.Invoke(cursor, uiCursor);
             }
+
+            if (m_uiItemSelection)
+            {
+                m_uiItemSelection
+                    .SetItem(null)
+                    .SetEnableIcon(false);
+            }
+        }
+
+        public void SetItemSelection(Item item)
+        {
+            if (!m_uiItemSelection)
+                return;
+
+            m_uiItemSelection
+                .SetEnableIcon(item != null)
+                .SetItem(item);
         }
     }
 }

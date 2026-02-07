@@ -6,8 +6,11 @@ namespace PandaIsPanda
     [Serializable]
     public class Cell
     {
-        private int m_row;
-        private int m_column;
+        [SerializeField] private int m_row;
+        [SerializeField] private int m_column;
+        
+        public int Row => m_row;
+        public int Column => m_column;
         
         private bool m_isCursor;
         
