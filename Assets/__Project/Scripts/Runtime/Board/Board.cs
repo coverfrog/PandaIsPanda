@@ -187,20 +187,27 @@ namespace PandaIsPanda
         {
             if (m_cursor.Item == null) // 커서에 아이템 정보가 없다면 추가 동작은 없음
                 return;
+            
             m_cursor.SetActive(false); // 커서는 보이지 않게 처리
 
             if (!TryFindCell(screenPos, out Cell finedCell) ) // Cell 에 놓지 않은 경우
             {
-                m_cursor.SetItem(null);
-                m_cursor.Selection.SetEnableIcon(this, true);
+                m_cursor
+                    .SetItem(null);
+                m_cursor
+                    .Selection.SetEnableIcon(this, true);
                 
                 return;
             }
 
             if (finedCell == m_cursor.Selection) // 놓은 곳에 다시 놓은 경우
             {
-                m_cursor.SetItem(null);
-                m_cursor.Selection.SetEnableIcon(this, true);
+                m_cursor.Selection
+                    .SetEnableIcon(this, true);
+
+                m_cursor
+                    .SetSelection(finedCell)
+                    .SetItem(null);
 
                 return;
             }
@@ -209,14 +216,18 @@ namespace PandaIsPanda
             {
                 finedCell
                     .SetItem(m_cursor.Item.DeepClone())
+                    .SetEnableFocus(this, true)
                     .SetEnableIcon(this, true);
                 
-                m_cursor
-                    .SetItem(null);
+        
                 m_cursor.Selection
                     .SetItem(null)
                     .SetEnableIcon(this, false)
                     .SetEnableFocus(this, false);
+
+                m_cursor
+                    .SetSelection(finedCell)
+                    .SetItem(null);
             }
             
             else // 아이템은 존재
@@ -236,12 +247,16 @@ namespace PandaIsPanda
                     // 서로 다른 아이템으로 처리
                     finedCell
                         .SetItem(cursorItem)
-                        .SetEnableIcon(this, true);
+                        .SetEnableIcon(this, true)
+                        .SetEnableFocus(this, true);
 
                     m_cursor.Selection
                         .SetItem(finedItem)
                         .SetEnableIcon(this, true);
-                    m_cursor.SetItem(null);
+
+                    m_cursor
+                        .SetSelection(finedCell)
+                        .SetItem(null);
 
                     return;
                 }
