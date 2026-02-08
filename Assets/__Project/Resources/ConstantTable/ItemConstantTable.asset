@@ -13,23 +13,24 @@ MonoBehaviour:
   m_Name: ItemConstantTable
   m_EditorClassIdentifier: Assembly-CSharp::PandaIsPanda.ItemConstantTable
   m_constList:
-  - m_id: 1
-    m_mergedId: 0
-    m_grade: 1
-    m_icon: {fileID: 21300000, guid: 86511a9069dd15a49ae9a553ed70748c, type: 3}
-    m_itemType: 0
   - m_id: 2
     m_mergedId: 3
     m_grade: 1
+    m_subject: 
+    m_description: 
+    m_isCanSell: 0
     m_icon: {fileID: 21300000, guid: 1a452f7b52376244c84fedd30b7d9a76, type: 3}
-    m_itemType: 0
   - m_id: 3
     m_mergedId: 4
     m_grade: 0
+    m_subject: 
+    m_description: 
+    m_isCanSell: 0
     m_icon: {fileID: 21300000, guid: f363c924db02a224ab43c9d24f38d6dd, type: 3}
-    m_itemType: 0
   - m_id: 4
     m_mergedId: 0
     m_grade: 0
+    m_subject: 
+    m_description: 
+    m_isCanSell: 0
     m_icon: {fileID: 21300000, guid: af98b472ed4cd6c40be2fed0af6f894a, type: 3}
-    m_itemType: 0

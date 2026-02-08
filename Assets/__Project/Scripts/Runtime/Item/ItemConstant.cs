@@ -11,8 +11,8 @@ namespace PandaIsPanda
         [SerializeField] private uint m_grade;
         [SerializeField] private string m_subject;
         [SerializeField] private string m_description;
+        [SerializeField] private bool m_isCanSell;
         [SerializeField] private Sprite m_icon;
-        [SerializeField] private ItemType m_itemType;
         
         public ulong Id => m_id;
         public ulong MergedId => m_mergedId;
@@ -22,9 +22,9 @@ namespace PandaIsPanda
         public string Subject => m_subject;
         
         public string Description => m_description;
+
+        public bool IsCanSell => m_isCanSell;
         
         public Sprite Icon => m_icon;
-        
-        public ItemType ItemType => m_itemType;
     }
 }

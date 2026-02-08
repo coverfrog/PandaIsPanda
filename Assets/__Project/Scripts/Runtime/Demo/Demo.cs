@@ -7,11 +7,24 @@ namespace PandaIsPanda
 {
     public class Demo : MonoBehaviour
     {
-        private Board m_board;
+        [Header("# References")]
+        [SerializeField] private Board m_board;
+        [SerializeField] private Round m_round;
 
-        private void Awake()
+        private void Start()
         {
-            m_board = FindAnyObjectByType<Board>();
+            m_round.Setup();
+        }
+
+        private void OnEnable()
+        {
+            m_board.Init();
+            m_round.Begin();
+        }
+
+        private void OnDisable()
+        {
+
         }
 
         private void Update()
@@ -19,10 +32,15 @@ namespace PandaIsPanda
 #if UNITY_EDITOR
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
-                m_board.AddItem();
+                m_board.AddItem(true);
             }
             
             if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                m_board.AddItem(false);
+            }
+            
+            if (Input.GetKeyDown(KeyCode.Alpha3))
             {
                 var data = m_board.ToData();
 #if false
@@ -57,7 +75,7 @@ namespace PandaIsPanda
                 Debug.Log(path);
             }
 
-            if (Input.GetKeyDown(KeyCode.Alpha3))
+            if (Input.GetKeyDown(KeyCode.Alpha4))
             {
                 var path = Path.Combine(Application.persistentDataPath, "Board.json");
                 var json = File.ReadAllText(path);
@@ -68,16 +86,6 @@ namespace PandaIsPanda
                 
             }
 #endif
-        }
-
-        private void OnEnable()
-        {
-            m_board.Init();
-        }
-
-        private void OnDisable()
-        {
-            
         }
     }
 }

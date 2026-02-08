@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -5,17 +6,18 @@ namespace PandaIsPanda
 {
     public class Board : MonoBehaviour
     {
+        [Header("# References")]
+        [SerializeField] private UIBoard m_uiBoard;
+
         [Header("# Res")]
         [SerializeField] private ItemConstantTable m_resItemConstantTable;
 
-        private UIBoard m_uiBoard;
-        
-        private Cell[,] m_grid = new Cell[9, 7];
+        private Cell[,] m_grid = new Cell[7, 7];
         private CellCursor m_cursor;
 
         private bool m_isTrack;
         private Vector2 m_inputScreenPos;
-        
+
         public void Init()
         {
             // Grid 초기화
@@ -34,7 +36,6 @@ namespace PandaIsPanda
             m_cursor = new CellCursor(-1, -1);
             
             // 보드 Cell UI 초기화
-            m_uiBoard = FindAnyObjectByType<UIBoard>();
             m_uiBoard.Init(
                 m_grid,
                 m_cursor,
@@ -63,21 +64,30 @@ namespace PandaIsPanda
             inputManager.OnPointerMove += OnPointerMove;
         }
 
-        public void AddItem()
+        public void AddItem(bool isEnemy)
         {
-            if (!TryFindEmptyCell(out Cell emptyCell)) 
-                return;
-
-            var constants = m_resItemConstantTable.ConstList.Where(x => x.Grade == 1).ToList();
+            if (isEnemy)
+            {
+                var monster = Resources.Load<Monster>("Prefab/Monster");
+                var ins = Instantiate(monster, m_uiBoard.transform);
+            }
             
-            int count = constants.Count;
-            
-            ItemConstant constant = constants[Random.Range(0, count)];
-            Item item = new Item(constant);
+            else
+            {
+                if (!TryFindEmptyCell(out Cell emptyCell)) 
+                    return;
 
-            emptyCell
-                .SetItem(item)
-                .SetEnableIcon(this, true);
+                var constants = m_resItemConstantTable.ConstList.Where(x => x.Grade == 1).ToList();
+            
+                int count = constants.Count;
+            
+                ItemConstant constant = constants[Random.Range(0, count)];
+                Item item = new Item(constant);
+
+                emptyCell
+                    .SetItem(item)
+                    .SetEnableIcon(this, true);
+            }
         }
 
         public BoardData ToData()
@@ -156,9 +166,9 @@ namespace PandaIsPanda
             int rowLength = m_grid.GetLength(0);
             int columnLength = m_grid.GetLength(1);
 
-            for (int r = 0; r < rowLength; r++)
+            for (int r = 1; r < rowLength - 1; r++)
             {
-                for (int c = 0; c < columnLength; c++)
+                for (int c = 1; c < columnLength - 1; c++)
                 {
                     if (m_grid[r, c].Item != null)
                         continue;
@@ -178,9 +188,9 @@ namespace PandaIsPanda
             int rowLength = m_grid.GetLength(0);
             int columnLength = m_grid.GetLength(1);
 
-            for (int r = 0; r < rowLength; r++)
+            for (int r = 1; r < rowLength - 1; r++)
             {
-                for (int c = 0; c < columnLength; c++)
+                for (int c = 1; c < columnLength - 1; c++)
                 {
                     cell = m_grid[r, c];
                     

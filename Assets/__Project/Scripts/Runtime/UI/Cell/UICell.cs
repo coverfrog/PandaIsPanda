@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -53,6 +54,12 @@ namespace PandaIsPanda
         public UICell SetItem(Cell _, Item item)
         {
             if (m_uiItem) m_uiItem.SetItem(item);
+
+            if (item != null && gameObject.activeInHierarchy)
+            {
+                StartCoroutine(CoCoCo());
+            }
+            
             return this;
         }
 
@@ -83,6 +90,23 @@ namespace PandaIsPanda
         public bool IsRectContains(Cell _, Vector2 screenPos)
         {
             return m_rt != null && RectTransformUtility.RectangleContainsScreenPoint(m_rt, screenPos);
+        }
+
+        private IEnumerator CoCoCo()
+        {
+            while (true)
+            {
+                for (float t = 0.0f; t < 1.0f; t += Time.deltaTime)
+                {
+                    yield return new WaitForEndOfFrame();
+                }
+
+                var mon =  FindAnyObjectByType<Monster>();
+                if (mon == null)
+                    continue;
+                
+                mon.Attack(50);
+            }
         }
     }
 }

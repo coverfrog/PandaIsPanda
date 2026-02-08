@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,9 +9,12 @@ namespace PandaIsPanda
     {
         [Header("# References")] 
         [SerializeField] private RectTransform m_rt;
+        [Space]
         [SerializeField] private GridLayoutGroup m_gridLayoutGroup;
+        [SerializeField] private Image m_imgGridLayoutGroup;
+        [Space]
         [SerializeField] private UIItem m_uiItemSelection;
-        
+
         [Header("# Res")]
         [SerializeField] private UICell m_resUICell;
         
@@ -29,17 +33,18 @@ namespace PandaIsPanda
                 m_isCellCreated = true;
                 
                 // 매직 넘버
-                const int columns = 7;
-                const float cellSize = 140;
+                const float cellSize = 124;
 
                 // Grid 초기화
+                int rowLength = grid.GetLength(0);
+                int columnLength = grid.GetLength(1);
+
                 m_gridLayoutGroup.enabled = false;
                 m_gridLayoutGroup.cellSize = Vector2.one * cellSize;
                 m_gridLayoutGroup.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
-                m_gridLayoutGroup.constraintCount = columns;
-                
-                int rowLength = grid.GetLength(0);
-                int columnLength = grid.GetLength(1);
+                m_gridLayoutGroup.constraintCount = columnLength;
+
+                m_imgGridLayoutGroup.rectTransform.sizeDelta = new Vector2(rowLength * cellSize, columnLength * cellSize);
 
                 for (int r = 0; r < rowLength; r++)
                 {

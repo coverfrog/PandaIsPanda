@@ -1,5 +1,7 @@
 ﻿using System;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace PandaIsPanda
 {
@@ -9,10 +11,13 @@ namespace PandaIsPanda
         [SerializeField] private ItemConstant m_constant;
         
         public ItemConstant Constant => m_constant;
+
+        private float coolTime = 0.0f;
         
         public Item(ItemConstant constant)
         {
             m_constant = constant;
+
         }
 
         public virtual bool TryUse(out byte errorCode)
