@@ -4,11 +4,9 @@ using UnityEngine;
 
 namespace PandaIsPanda
 {
-    public class RoundConstantTable : ScriptableObject, IConstantTable
+    public class SpawnEventConstantTable : ScriptableObject, IConstantTable
     {
-        [SerializeField] private UnityDictionary<ulong, RoundConstant> m_data = new();
-
-        public IReadOnlyDictionary<ulong, RoundConstant> Data => m_data.ToReadOnlyDictionary();
+        [SerializeField] private UnityDictionary<ulong, SpawnEventConstant> m_data = new();
         
         public void Load(IReadOnlyDictionary<int, IReadOnlyDictionary<int, IReadOnlyList<object>>> data)
         {
@@ -20,11 +18,8 @@ namespace PandaIsPanda
                     continue;
                 
                 ulong id = Convert.ToUInt64(columns[0]);
-                ulong nextId = Convert.ToUInt64(columns[1]);
-                ulong spawnId = Convert.ToUInt64(columns[2]);
-                float duration = Convert.ToSingle(columns[3]);
                 
-                var constant = new RoundConstant(id, nextId, spawnId, duration);
+                var constant = new SpawnEventConstant(id);
                 
                 m_data.Add(id, constant);
             }

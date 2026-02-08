@@ -11,8 +11,9 @@ public static class EditorConstantTableSettings
 
     public static readonly Dictionary<string, string> k_classNameDict = new()
     {
-        { "Round", "RoundConstantTable"},
-        { "Unit", "UnitConstantTable"},
+        { "Round"     , "RoundConstantTable"     },
+        { "Unit"      , "UnitConstantTable"      },
+        { "SpawnEvent", "SpawnEventConstantTable"},
     };
 }
 #endif
