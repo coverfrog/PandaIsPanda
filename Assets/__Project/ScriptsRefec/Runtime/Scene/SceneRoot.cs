@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace PandaIsPanda
 {
@@ -13,9 +14,6 @@ namespace PandaIsPanda
             Setup();
         }
 
-        protected virtual void Setup()
-        {
-            
-        }
+        protected virtual void Setup() {}
     }
 }
