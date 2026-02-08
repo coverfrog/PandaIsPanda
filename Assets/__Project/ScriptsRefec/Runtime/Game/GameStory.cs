@@ -57,8 +57,11 @@ namespace PandaIsPanda
             
             for (int i = 0; i < spawnCount; i++)
             {
-                Unit unit = m_enemyPool.Get();
-                unit.Setup(spawnId);
+                var unit = m_enemyPool.Get();
+                var unitConstant = DataManager.Instance.UnitConstants[spawnId];
+                var unitData = new UnitData(unitConstant);                
+                
+                unit.Setup(unitData);
             }
 
             spawnEventData.AddCallCount();

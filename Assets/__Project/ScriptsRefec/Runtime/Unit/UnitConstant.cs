@@ -7,12 +7,16 @@ namespace PandaIsPanda
     public class UnitConstant
     {
         [SerializeField] private ulong m_id;
+        [SerializeField] private ulong m_nameId;
         
         public ulong Id => m_id;
+        
+        public ulong NameId => m_nameId;
 
-        public UnitConstant(ulong id)
+        public UnitConstant(ulong id, ulong nameId)
         {
             m_id = id;
+            m_nameId = nameId;
         }
     }
 }

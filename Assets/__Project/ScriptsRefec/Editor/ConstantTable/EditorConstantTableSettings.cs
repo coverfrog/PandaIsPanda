@@ -14,6 +14,7 @@ public static class EditorConstantTableSettings
         { "Round"     , "RoundConstantTable"     },
         { "Unit"      , "UnitConstantTable"      },
         { "SpawnEvent", "SpawnEventConstantTable"},
+        { "LocalizationText", "LocalizationTextConstantTable"},
     };
 }
 #endif

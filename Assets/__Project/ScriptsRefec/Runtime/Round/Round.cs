@@ -51,8 +51,8 @@ namespace PandaIsPanda
             OnRoundEnd -= onRoundEnd;
             OnRoundEnd += onRoundEnd;
 
-            var roundConstants = AddressableUtil.Load<RoundConstantTable>("constanttable/round").Data;
-            var spawnEventConstants = AddressableUtil.Load<SpawnEventConstantTable>("constanttable/spawnevent").Data;
+            var roundConstants = DataManager.Instance.RoundConstants;
+            var spawnEventConstants = DataManager.Instance.SpawnEventConstants;
 
             m_rounds = roundConstants.ToDictionary(kv => kv.Key, kv =>
                 new RoundData(

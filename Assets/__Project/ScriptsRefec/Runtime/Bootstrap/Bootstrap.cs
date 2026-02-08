@@ -21,8 +21,11 @@ namespace PandaIsPanda
             await UniTask.WhenAll
             (
                 AddressableUtil.InstantiateAsync<UIManager>("manager/ui", true),
-                AddressableUtil.InstantiateAsync<AudioManager>("manager/audio", true)
+                AddressableUtil.InstantiateAsync<AudioManager>("manager/audio", true),
+                AddressableUtil.InstantiateAsync<DataManager>("manager/data", true)
             );
+
+            await DataManager.Instance.LoadAllAsync();
             
             IsBoot = true;
         }
