@@ -27,17 +27,17 @@ namespace PandaIsPanda
             m_round.Play();
         }
 
-        public void OnRoundBegin(ulong roundId)
+        public void OnRoundBegin(RoundData roundData)
         {
-            LogUtil.Log($"[{nameof(GameStory)}] 라운드 시작 Id: {roundId}");
+            LogUtil.Log($"[{nameof(GameStory)}] 라운드 시작 Id: {roundData.Constant.Id}");
         }
         
-        private void OnRoundSec(ulong roundId, uint sec)
+        private void OnRoundSec(RoundData roundData)
         {
-            
+            LogUtil.Log(roundData.TimerSec);
         }
         
-        private void OnRoundEnd(ulong roundId)
+        private void OnRoundEnd(RoundData roundData)
         {
             
         }

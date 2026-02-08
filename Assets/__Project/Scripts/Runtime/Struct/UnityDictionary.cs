@@ -177,20 +177,15 @@ public class UnityDictionary<TKey,TValue> : IDictionary<TKey, TValue>
 
 public static class UnityDictionaryExtensions
 {
-	public static IReadOnlyDictionary<TK, TV> ToReadOnlyDictionary<TK, TV>(this UnityDictionary<TK, TV> dictionary, bool isClone)
-		where TV : IDeepClone<TV>
+	public static IReadOnlyDictionary<TK, TV> ToReadOnlyDictionary<TK, TV>(this UnityDictionary<TK, TV> dictionary)
 	{
-		return isClone ?
-			dictionary.ToDictionary(kv => kv.Key, kv => kv.Value.DeepClone()) :
-			dictionary.ToDictionary(kv => kv.Key, kv => kv.Value);
+		return dictionary.ToDictionary(kv => kv.Key, kv => kv.Value);
 	}
         
-	public static Dictionary<TK, TV> ToDictionary<TK, TV>(this UnityDictionary<TK, TV> dictionary, bool isClone)
+	public static Dictionary<TK, TV> ToDictionary<TK, TV>(this UnityDictionary<TK, TV> dictionary)
 		where TV : IDeepClone<TV>
 	{
-		return isClone ?
-			dictionary.ToDictionary(kv => kv.Key, kv => kv.Value.DeepClone()) :
-			dictionary.ToDictionary(kv => kv.Key, kv => kv.Value);
+		return dictionary.ToDictionary(kv => kv.Key, kv => kv.Value);
 	}
 	
 	/*

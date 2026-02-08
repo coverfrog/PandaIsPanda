@@ -12,5 +12,6 @@ EditorBuildSettings:
     path: Assets/__Project/Scenes/Lobby.unity
     guid: 603921f79eff8c848b08eba815dca6d1
   m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: 45d7cfa9db2fa2f4da10850ca8c212dc, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 1c156fba1c79d33469fd7d7e1192f9bd, type: 3}
   m_UseUCBPForAssetBundles: 0
