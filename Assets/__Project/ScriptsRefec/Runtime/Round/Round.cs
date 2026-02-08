@@ -80,7 +80,7 @@ namespace PandaIsPanda
             {
                 int sec = Mathf.CeilToInt(timerSec);
                 
-                if (roundData.TimerSec != sec)
+                if (roundData.TimerSecInt != sec)
                 {
                     roundData.SetTimerSec(Mathf.CeilToInt(timerSec));
                     InvokeRoundSec(roundData);

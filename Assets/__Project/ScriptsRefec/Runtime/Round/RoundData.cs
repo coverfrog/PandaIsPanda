@@ -7,17 +7,17 @@ namespace PandaIsPanda
     {
         public RoundConstant Constant { get; }
         
-        public int TimerSec { get; private set; }
+        public int TimerSecInt { get; private set; }
         
         public RoundData(RoundConstant constant)
         {
             Constant = constant;
-            TimerSec = Convert.ToInt32(constant.Duration);
+            TimerSecInt = Convert.ToInt32(constant.Duration);
         }
 
         public RoundData SetTimerSec(int timerSec)
         {
-            TimerSec = timerSec; return this;
+            TimerSecInt = timerSec; return this;
         }
     }
 }

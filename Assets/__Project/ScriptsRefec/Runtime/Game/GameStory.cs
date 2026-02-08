@@ -34,7 +34,7 @@ namespace PandaIsPanda
         
         private void OnRoundSec(RoundData roundData)
         {
-            LogUtil.Log(roundData.TimerSec);
+            LogUtil.Log(roundData.TimerSecInt);
         }
         
         private void OnRoundEnd(RoundData roundData)
