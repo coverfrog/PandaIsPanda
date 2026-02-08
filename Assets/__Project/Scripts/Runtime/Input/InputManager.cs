@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace PandaIsPanda
+namespace PandaIsPandaMvp
 {
     public class InputManager : MonoBehaviour, IDisposable
     {

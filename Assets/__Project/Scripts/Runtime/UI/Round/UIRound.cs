@@ -1,7 +1,7 @@
 ﻿using RTLTMPro;
 using UnityEngine;
 
-namespace PandaIsPanda
+namespace PandaIsPandaMvp
 {
     public class UIRound : MonoBehaviour
     {

@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace PandaIsPanda
+namespace PandaIsPandaMvp
 {
     public class UIBoard : MonoBehaviour
     {

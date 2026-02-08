@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace PandaIsPanda
+namespace PandaIsPandaMvp
 {
     [Serializable]
     public class Cell

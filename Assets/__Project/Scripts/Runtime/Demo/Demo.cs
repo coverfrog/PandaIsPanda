@@ -3,7 +3,7 @@ using System.IO;
 using Newtonsoft.Json;
 using UnityEngine;
 
-namespace PandaIsPanda
+namespace PandaIsPandaMvp
 {
     public class Demo : MonoBehaviour
     {

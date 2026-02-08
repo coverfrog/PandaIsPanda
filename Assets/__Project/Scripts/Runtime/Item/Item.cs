@@ -3,7 +3,7 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace PandaIsPanda
+namespace PandaIsPandaMvp
 {
     [Serializable]
     public class Item : IDeepClone<Item>

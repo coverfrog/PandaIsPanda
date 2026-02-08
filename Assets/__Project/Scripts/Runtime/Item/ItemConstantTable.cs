@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace PandaIsPanda
+namespace PandaIsPandaMvp
 {
     [CreateAssetMenu(fileName = nameof(ItemConstantTable), menuName = "PandaIsPanda/ItemConstTable")]
     public class ItemConstantTable : ScriptableObject

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace PandaIsPanda
+namespace PandaIsPandaMvp
 {
     public class DataManager : MonoBehaviour
     {

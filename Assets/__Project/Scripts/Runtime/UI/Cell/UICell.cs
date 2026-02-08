@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace PandaIsPanda
+namespace PandaIsPandaMvp
 {
     public class UICell : MonoBehaviour
     {

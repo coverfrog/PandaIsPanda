@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PandaIsPanda
+namespace PandaIsPandaMvp
 {
     [Serializable]
     public class RoundData
