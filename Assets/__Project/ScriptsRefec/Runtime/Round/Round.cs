@@ -15,11 +15,15 @@ namespace PandaIsPanda
         
         public delegate void RoundSecHandler(RoundData roundData);
         
+        public delegate void RoundSpawnRequestHandler(SpawnEventData spawnData);
+        
         public delegate void RoundEndHandler(RoundData roundData);
         
         public event RoundBeginHandler OnRoundBegin;
         
         public event RoundSecHandler OnRoundSec;
+        
+        public event RoundSpawnRequestHandler OnRoundSpawnRequest;
         
         public event RoundEndHandler OnRoundEnd;
 
@@ -31,20 +35,29 @@ namespace PandaIsPanda
         (
             RoundBeginHandler onRoundBegin,
             RoundSecHandler onRoundSec,
+            RoundSpawnRequestHandler onRoundSpawnRequest,
             RoundEndHandler onRoundEnd
         )
         {
             OnRoundBegin -= onRoundBegin;
             OnRoundBegin += onRoundBegin;
             
-            OnRoundSec -=  onRoundSec;
-            OnRoundSec +=  onRoundSec;
+            OnRoundSec -= onRoundSec;
+            OnRoundSec += onRoundSec;
+            
+            OnRoundSpawnRequest -= onRoundSpawnRequest;
+            OnRoundSpawnRequest += onRoundSpawnRequest;
             
             OnRoundEnd -= onRoundEnd;
             OnRoundEnd += onRoundEnd;
 
-            IReadOnlyDictionary<ulong, RoundConstant> constants = AddressableUtil.Load<RoundConstantTable>("constanttable/round").Data;
-            m_rounds = constants.ToDictionary(kv => kv.Key, kv => new RoundData(kv.Value));
+            var roundConstants = AddressableUtil.Load<RoundConstantTable>("constanttable/round").Data;
+            var spawnEventConstants = AddressableUtil.Load<SpawnEventConstantTable>("constanttable/spawnevent").Data;
+
+            m_rounds = roundConstants.ToDictionary(kv => kv.Key, kv =>
+                new RoundData(
+                    kv.Value,
+                    spawnEventConstants));
         }
         
         public void Play(ulong roundId = 1)
@@ -67,6 +80,11 @@ namespace PandaIsPanda
             OnRoundSec?.Invoke(roundData);
         }
         
+        private void InvokeRoundSpawnRequest(SpawnEventData spawnEventData)
+        {
+            OnRoundSpawnRequest?.Invoke(spawnEventData);
+        }
+        
         private void InvokeRoundEnd(RoundData roundData)
         {
             OnRoundEnd?.Invoke(roundData);
@@ -84,6 +102,14 @@ namespace PandaIsPanda
                 {
                     roundData.SetTimerSec(Mathf.CeilToInt(timerSec));
                     InvokeRoundSec(roundData);
+
+                    foreach ((ulong spawnEventId, SpawnEventData spawnEventData) in roundData.SpawnEventData)
+                    {
+                        if (spawnEventData.CheckCondition(roundData))
+                        {
+                            InvokeRoundSpawnRequest(spawnEventData);
+                        }
+                    }
                 }
                 
                 yield return null;

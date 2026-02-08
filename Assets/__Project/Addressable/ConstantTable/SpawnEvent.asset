@@ -13,4 +13,30 @@ MonoBehaviour:
   m_Name: SpawnEvent
   m_EditorClassIdentifier: Assembly-CSharp::PandaIsPanda.SpawnEventConstantTable
   m_data:
-    _keys: 
+    _keys: 01000000000000000200000000000000030000000000000004000000000000000500000000000000
+    _values:
+    - m_id: 1
+      m_spawnEventTriggerType: 0
+      m_unitId: 1
+      m_callCount: 5
+      m_spawnCount: 1
+    - m_id: 2
+      m_spawnEventTriggerType: 0
+      m_unitId: 2
+      m_callCount: 5
+      m_spawnCount: 1
+    - m_id: 3
+      m_spawnEventTriggerType: 0
+      m_unitId: 3
+      m_callCount: 5
+      m_spawnCount: 1
+    - m_id: 4
+      m_spawnEventTriggerType: 0
+      m_unitId: 4
+      m_callCount: 5
+      m_spawnCount: 1
+    - m_id: 5
+      m_spawnEventTriggerType: 0
+      m_unitId: 5
+      m_callCount: 5
+      m_spawnCount: 1

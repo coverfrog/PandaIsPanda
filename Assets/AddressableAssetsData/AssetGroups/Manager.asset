@@ -10,23 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: ConstantTable
+  m_Name: Manager
   m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
-  m_GroupName: ConstantTable
-  m_GUID: 0d3b3717427d1f147b577c38849a65ae
+  m_GroupName: Manager
+  m_GUID: cfd423858d6dc854bb80813537ca86ca
   m_SerializeEntries:
-  - m_GUID: 73ae6f090201e4c429da5b6993ebe1b9
-    m_Address: constanttable/unit
+  - m_GUID: 4195e0dabfc02064b91932a4ae73e77c
+    m_Address: manager/audio
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 77bbeadfed505654b955d8132901ef0c
-    m_Address: constanttable/spawnevent
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: d175f4764cd94e84686875afbd357c7a
-    m_Address: constanttable/round
+  - m_GUID: b3acab4a88e344f4a92cd68f5dbc1e7e
+    m_Address: manager/ui
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -34,5 +29,5 @@ MonoBehaviour:
   m_Settings: {fileID: 11400000, guid: c44cd0fa9841bdd44953b1299b8e63ec, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: 74dc389e6b13164489ed8aae00d84e80, type: 2}
-    - {fileID: 11400000, guid: 7eb5450288313e64a9d0c6f2da3d5bf7, type: 2}
+    - {fileID: 11400000, guid: 382045f60f083ed49af560d37b3b92f3, type: 2}
+    - {fileID: 11400000, guid: 0ecb636c0aeb8ba4a9c9792f5d163965, type: 2}

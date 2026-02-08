@@ -18,6 +18,12 @@ namespace PandaIsPanda
 
         private static async UniTask BootTask()
         {
+            await UniTask.WhenAll
+            (
+                AddressableUtil.InstantiateAsync<UIManager>("manager/ui", true),
+                AddressableUtil.InstantiateAsync<AudioManager>("manager/audio", true)
+            );
+            
             IsBoot = true;
         }
     }

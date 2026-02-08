@@ -7,6 +7,19 @@ namespace PandaIsPanda
     public class SpawnEventConstantTable : ScriptableObject, IConstantTable
     {
         [SerializeField] private UnityDictionary<ulong, SpawnEventConstant> m_data = new();
+
+        public IReadOnlyDictionary<ulong, SpawnEventConstant> Data 
+        {
+            get
+            {
+                if (m_readOnlyData == null)
+                    m_readOnlyData = m_data.ToReadOnlyDictionary();
+
+                return m_readOnlyData;
+            }
+        }
+        
+        private IReadOnlyDictionary<ulong, SpawnEventConstant> m_readOnlyData;
         
         public void Load(IReadOnlyDictionary<int, IReadOnlyDictionary<int, IReadOnlyList<object>>> data)
         {
@@ -18,8 +31,12 @@ namespace PandaIsPanda
                     continue;
                 
                 ulong id = Convert.ToUInt64(columns[0]);
+                SpawnEventTriggerType spawnEventTriggerType = (SpawnEventTriggerType)Convert.ToInt32(columns[1]);
+                ulong unitId = Convert.ToUInt64(columns[2]);
+                int callCount = Convert.ToInt32(columns[3]);
+                int spawnCount = Convert.ToInt32(columns[4]);
                 
-                var constant = new SpawnEventConstant(id);
+                var constant = new SpawnEventConstant(id, spawnEventTriggerType, unitId, callCount, spawnCount);
                 
                 m_data.Add(id, constant);
             }

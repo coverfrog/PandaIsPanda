@@ -7,6 +7,19 @@ namespace PandaIsPanda
     public class UnitConstantTable : ScriptableObject, IConstantTable
     {
         [SerializeField] private UnityDictionary<ulong, UnitConstant> m_data = new();
+
+        public IReadOnlyDictionary<ulong, UnitConstant> Data
+        {
+            get
+            {
+                if (m_readOnlyData == null)
+                    m_readOnlyData = m_data.ToReadOnlyDictionary();
+
+                return m_readOnlyData;
+            }
+        }
+        
+        private IReadOnlyDictionary<ulong, UnitConstant> m_readOnlyData;
         
         public void Load(IReadOnlyDictionary<int, IReadOnlyDictionary<int, IReadOnlyList<object>>> data)
         {
