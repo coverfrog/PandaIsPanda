@@ -16,6 +16,8 @@ namespace PandaIsPanda
         
         public IReadOnlyDictionary<ulong, LocalizationTextConstant> LocalizationTextConstants { get; private set; }
         
+        public IReadOnlyDictionary<ulong, ItemConstant> ItemConstants { get; private set; }
+        
         public async UniTask LoadAllAsync()
         {
             await UniTask.WhenAll
@@ -30,8 +32,11 @@ namespace PandaIsPanda
                     .ContinueWith(d => UnitConstants = d.Data),
                 
                 AddressableUtil.LoadAsync<LocalizationTextConstantTable>("constanttable/localizationtext")
-                    .ContinueWith(d => LocalizationTextConstants = d.Data)
-            );
+                    .ContinueWith(d => LocalizationTextConstants = d.Data),
+            
+                AddressableUtil.LoadAsync<ItemConstantTable>("constanttable/item")
+                    .ContinueWith(d => ItemConstants = d.Data)
+                );
         }
         
         public static DataManager Instance { get; private set; }

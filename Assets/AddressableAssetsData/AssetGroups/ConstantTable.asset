@@ -15,6 +15,11 @@ MonoBehaviour:
   m_GroupName: ConstantTable
   m_GUID: 0d3b3717427d1f147b577c38849a65ae
   m_SerializeEntries:
+  - m_GUID: 19277c1a4e911da41ab70fdd296a409f
+    m_Address: constanttable/item
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 73ae6f090201e4c429da5b6993ebe1b9
     m_Address: constanttable/unit
     m_ReadOnly: 0

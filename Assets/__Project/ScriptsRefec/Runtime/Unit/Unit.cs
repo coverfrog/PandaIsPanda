@@ -6,7 +6,7 @@ namespace PandaIsPanda
     {
         public void Setup(UnitData unitData)
         {
-           LogUtil.Log(DataManager.Instance.LocalizationTextConstants[unitData.Constant.NameId].Kr);
+           
         }
     }
 }
