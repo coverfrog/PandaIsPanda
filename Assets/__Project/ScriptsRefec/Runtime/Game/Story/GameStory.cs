@@ -10,6 +10,7 @@ namespace PandaIsPanda
     {
         [Header("# References")]
         [SerializeField] private Round m_round;
+        [SerializeField] private Inventory m_inventory;
         
         private IObjectPool<Unit> m_enemyPool;
 
