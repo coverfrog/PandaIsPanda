@@ -12,20 +12,16 @@ namespace PandaIsPanda
         #region # Event
 
         public delegate void RoundBeginHandler(RoundData roundData);
-        
         public delegate void RoundSecHandler(RoundData roundData);
-        
         public delegate void RoundSpawnRequestHandler(SpawnEventData spawnData);
-        
         public delegate void RoundEndHandler(RoundData roundData);
+        public delegate void RoundLastEndHandler(RoundData roundData);
         
         public event RoundBeginHandler OnRoundBegin;
-        
         public event RoundSecHandler OnRoundSec;
-        
         public event RoundSpawnRequestHandler OnRoundSpawnRequest;
-        
         public event RoundEndHandler OnRoundEnd;
+        public event RoundLastEndHandler OnRoundLastEnd;
 
         #endregion
 
@@ -36,7 +32,8 @@ namespace PandaIsPanda
             RoundBeginHandler onRoundBegin,
             RoundSecHandler onRoundSec,
             RoundSpawnRequestHandler onRoundSpawnRequest,
-            RoundEndHandler onRoundEnd
+            RoundEndHandler onRoundEnd,
+            RoundLastEndHandler onRoundLastEnd
         )
         {
             OnRoundBegin -= onRoundBegin;
@@ -50,6 +47,9 @@ namespace PandaIsPanda
             
             OnRoundEnd -= onRoundEnd;
             OnRoundEnd += onRoundEnd;
+            
+            OnRoundLastEnd -= onRoundLastEnd;
+            OnRoundLastEnd += onRoundLastEnd;
 
             var roundConstants = DataManager.Instance.RoundConstants;
             var spawnEventConstants = DataManager.Instance.SpawnEventConstants;
@@ -78,6 +78,14 @@ namespace PandaIsPanda
         private void InvokeRoundSec(RoundData roundData)
         {
             OnRoundSec?.Invoke(roundData);
+            
+            foreach ((_, SpawnEventData spawnEventData) in roundData.SpawnEventData)
+            {
+                if (spawnEventData.CheckCondition(roundData))
+                {
+                    InvokeRoundSpawnRequest(spawnEventData);
+                }
+            }
         }
         
         private void InvokeRoundSpawnRequest(SpawnEventData spawnEventData)
@@ -88,6 +96,11 @@ namespace PandaIsPanda
         private void InvokeRoundEnd(RoundData roundData)
         {
             OnRoundEnd?.Invoke(roundData);
+        }
+
+        private void InvokeRoundLastEnd(RoundData roundData)
+        {
+            OnRoundLastEnd?.Invoke(roundData);
         }
         
         private IEnumerator CoTimer(RoundData roundData)
@@ -101,15 +114,8 @@ namespace PandaIsPanda
                 if (roundData.TimerSecInt != sec)
                 {
                     roundData.SetTimerSec(Mathf.CeilToInt(timerSec));
+                    
                     InvokeRoundSec(roundData);
-
-                    foreach ((ulong spawnEventId, SpawnEventData spawnEventData) in roundData.SpawnEventData)
-                    {
-                        if (spawnEventData.CheckCondition(roundData))
-                        {
-                            InvokeRoundSpawnRequest(spawnEventData);
-                        }
-                    }
                 }
                 
                 yield return null;
@@ -120,6 +126,10 @@ namespace PandaIsPanda
             if (m_rounds.TryGetValue(roundData.Constant.NextId, out RoundData nextRoundData))
             {
                 InvokeRoundBegin(nextRoundData);
+            }
+            else
+            {
+                InvokeRoundLastEnd(roundData);
             }
         }
     }

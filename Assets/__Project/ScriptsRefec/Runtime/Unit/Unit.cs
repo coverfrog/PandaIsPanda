@@ -4,9 +4,11 @@ namespace PandaIsPanda
 {
     public class Unit : MonoBehaviour
     {
+        public UnitData UnitData { get; private set; }
+        
         public void Setup(UnitData unitData)
         {
-           
+           UnitData = unitData;
         }
     }
 }

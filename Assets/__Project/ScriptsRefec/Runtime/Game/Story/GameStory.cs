@@ -10,7 +10,7 @@ namespace PandaIsPanda
     {
         [Header("# References")]
         [SerializeField] private Round m_round;
-        [SerializeField] private Inventory m_inventory;
+        [SerializeField] private Board m_board;
         
         private IObjectPool<Unit> m_enemyPool;
 
@@ -28,8 +28,11 @@ namespace PandaIsPanda
                 OnRoundBegin,
                 OnRoundSec,
                 OnRoundSpawnRequest,
-                OnRoundEnd
+                OnRoundEnd,
+                OnRoundLastEnd
             );
+            
+            m_board.Setup();
             
             Play();
         }
@@ -67,10 +70,15 @@ namespace PandaIsPanda
 
             spawnEventData.AddCallCount();
             
-            LogUtil.Log($"[{nameof(GameStory)}] 소환");
+            // LogUtil.Log($"[{nameof(GameStory)}] 소환");
         }
         
         private void OnRoundEnd(RoundData roundData)
+        {
+            
+        }
+        
+        private void OnRoundLastEnd(RoundData roundData)
         {
             
         }
