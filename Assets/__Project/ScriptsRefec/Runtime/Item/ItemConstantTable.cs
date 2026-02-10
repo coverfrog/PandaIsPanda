@@ -32,8 +32,9 @@ namespace PandaIsPanda
                 
                 ulong id = Convert.ToUInt64(columns[0]);
                 ulong nameId = Convert.ToUInt64(columns[1]);
+                string iconPath = Convert.ToString(columns[2]);
                 
-                var constant = new ItemConstant(id, nameId);
+                var constant = new ItemConstant(id, nameId, iconPath);
                 
                 m_data.Add(id, constant);
             }

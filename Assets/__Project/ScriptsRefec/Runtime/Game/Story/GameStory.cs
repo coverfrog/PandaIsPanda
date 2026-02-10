@@ -10,7 +10,6 @@ namespace PandaIsPanda
     {
         [Header("# References")]
         [SerializeField] private Round m_round;
-        [SerializeField] private Board m_board;
         
         private IObjectPool<Unit> m_enemyPool;
 
@@ -31,8 +30,6 @@ namespace PandaIsPanda
                 OnRoundEnd,
                 OnRoundLastEnd
             );
-            
-            m_board.Setup();
             
             Play();
         }
@@ -80,7 +77,7 @@ namespace PandaIsPanda
         
         private void OnRoundLastEnd(RoundData roundData)
         {
-            
+            LogUtil.Log($"[{nameof(GameStory)}] 마지막 라운드 종료");
         }
         #endregion
 

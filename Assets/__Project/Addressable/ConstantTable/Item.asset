@@ -13,27 +13,8 @@ MonoBehaviour:
   m_Name: Item
   m_EditorClassIdentifier: Assembly-CSharp::PandaIsPanda.ItemConstantTable
   m_data:
-    _keys: 0100000000000000a186010000000000a286010000000000a386010000000000a486010000000000a586010000000000410d030000000000420d030000000000430d030000000000440d030000000000450d030000000000
+    _keys: 0100000000000000
     _values:
     - m_id: 1
       m_nameId: 1
-    - m_id: 100001
-      m_nameId: 100001
-    - m_id: 100002
-      m_nameId: 100002
-    - m_id: 100003
-      m_nameId: 100003
-    - m_id: 100004
-      m_nameId: 100004
-    - m_id: 100005
-      m_nameId: 100005
-    - m_id: 200001
-      m_nameId: 200001
-    - m_id: 200002
-      m_nameId: 200002
-    - m_id: 200003
-      m_nameId: 200003
-    - m_id: 200004
-      m_nameId: 200004
-    - m_id: 200005
-      m_nameId: 200005
+      m_iconPath: icon/token

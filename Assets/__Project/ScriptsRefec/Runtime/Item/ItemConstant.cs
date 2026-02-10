@@ -8,15 +8,17 @@ namespace PandaIsPanda
     {
         [SerializeField] private ulong m_id;
         [SerializeField] private ulong m_nameId;
+        [SerializeField] private string m_iconPath;
         
         public ulong Id => m_id;
-        
         public ulong NameId => m_nameId;
-
-        public ItemConstant(ulong id, ulong nameId)
+        public string IconPath => m_iconPath;
+        
+        public ItemConstant(ulong id, ulong nameId, string iconPath)
         {
             m_id = id;
             m_nameId = nameId;
+            m_iconPath = iconPath;
         }
     }
 }

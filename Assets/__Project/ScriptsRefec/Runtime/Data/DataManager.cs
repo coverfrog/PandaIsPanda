@@ -8,6 +8,8 @@ namespace PandaIsPanda
 {
     public class DataManager : MonoBehaviour
     {
+        public Dictionary<ulong, InventoryData> InventoryData { get; } = new Dictionary<ulong, InventoryData>();
+        
         public IReadOnlyDictionary<ulong, RoundConstant> RoundConstants { get; private set; }
         
         public IReadOnlyDictionary<ulong, SpawnEventConstant> SpawnEventConstants { get; private set; }
