@@ -8,7 +8,9 @@ namespace PandaIsPanda
 {
     public class DataManager : MonoBehaviour
     {
-        public Dictionary<ulong, InventoryData> InventoryData { get; } = new Dictionary<ulong, InventoryData>();
+        public Dictionary<ulong, InventoryData> InventoryData { get; } = new();
+        
+        public Dictionary<ulong, GameStoryData> GameStoryData { get; } = new();
         
         public IReadOnlyDictionary<ulong, RoundConstant> RoundConstants { get; private set; }
         

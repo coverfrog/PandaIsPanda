@@ -56,7 +56,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
@@ -147,6 +147,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b6ceeb35e44497dac8386e9014ba813, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PandaIsPanda.UIManager
+  m_trCanvas: {fileID: 4962290440641734554}
 --- !u!1 &2254242271830999279
 GameObject:
   m_ObjectHideFlags: 0

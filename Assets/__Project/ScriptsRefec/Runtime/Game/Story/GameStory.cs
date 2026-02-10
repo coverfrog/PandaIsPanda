@@ -14,19 +14,24 @@ namespace PandaIsPanda
         
         private IObjectPool<Unit> m_enemyPool;
 
+        private ulong m_sessionId;
+
         private void OnDestroy()
         {
-            if (m_enemyPool != null) m_enemyPool.Clear();
+            m_enemyPool?.Clear();
         }
 
         public void Setup()
         {
+            DataManager.Instance.GameStoryData.TryAdd(m_sessionId, new GameStoryData());
+            
             m_enemyPool = new ObjectPool<Unit>(OnEnemyCreate, OnEnemyGet, OnEnemyRelease, OnEnemyDestroy);
             
             m_round.Setup
             (
                 OnRoundBegin,
                 OnRoundSec,
+                OnRoundSecInt,
                 OnRoundSpawnRequest,
                 OnRoundEnd,
                 OnRoundLastEnd
@@ -35,9 +40,14 @@ namespace PandaIsPanda
             Play();
         }
 
+      
+
         public void Play()
         {
             m_round.Play();
+
+            UIPageGameStory ui = UIManager.Instance.GetPage<UIPageGameStory>(UIPageType.GameStory);
+            ui.Open(m_sessionId);
         }
 
         #region # On Round
@@ -45,9 +55,16 @@ namespace PandaIsPanda
         public void OnRoundBegin(RoundData roundData)
         {
             LogUtil.Log($"[{nameof(GameStory)}] 라운드 시작 Id: {roundData.Constant.Id}");
+            
+            DataManager.Instance.GameStoryData[m_sessionId].Round.Value = roundData.Constant.Id;
         }
         
         private void OnRoundSec(RoundData roundData)
+        {
+            DataManager.Instance.GameStoryData[m_sessionId].Timer.Value = roundData.TimerSec;
+        }
+        
+        private void OnRoundSecInt(RoundData roundData)
         {
             // LogUtil.Log($"[{nameof(GameStory)}] 라운드 남은 시간 : {roundData.TimerSecInt}");
         }
@@ -90,7 +107,7 @@ namespace PandaIsPanda
         }
         #endregion
 
-        #region # On UnitSpawn
+        #region # OnEnemy
 
         private Unit OnEnemyCreate()
         {
@@ -105,13 +122,16 @@ namespace PandaIsPanda
         private void OnEnemyGet(Unit unit)
         {
             unit.gameObject.SetActive(true);
+
+            DataManager.Instance.GameStoryData[m_sessionId].EnemyCount.Value++;
         }
 
         private void OnEnemyRelease(Unit unit)
         {
             unit.gameObject.SetActive(false);
+            
+            DataManager.Instance.GameStoryData[m_sessionId].EnemyCount.Value--;
         }
-
         
         private void OnEnemyDestroy(Unit unit)
         {

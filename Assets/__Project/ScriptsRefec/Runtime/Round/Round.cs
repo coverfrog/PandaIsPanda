@@ -13,12 +13,14 @@ namespace PandaIsPanda
 
         public delegate void RoundBeginHandler(RoundData roundData);
         public delegate void RoundSecHandler(RoundData roundData);
+        public delegate void RoundSecIntHandler(RoundData roundData);
         public delegate void RoundSpawnRequestHandler(SpawnEventData spawnData);
         public delegate void RoundEndHandler(RoundData roundData);
         public delegate void RoundLastEndHandler(RoundData roundData);
         
         public event RoundBeginHandler OnRoundBegin;
         public event RoundSecHandler OnRoundSec;
+        public event RoundSecIntHandler OnRoundSecInt;
         public event RoundSpawnRequestHandler OnRoundSpawnRequest;
         public event RoundEndHandler OnRoundEnd;
         public event RoundLastEndHandler OnRoundLastEnd;
@@ -31,6 +33,7 @@ namespace PandaIsPanda
         (
             RoundBeginHandler onRoundBegin,
             RoundSecHandler onRoundSec,
+            RoundSecIntHandler onRoundSecInt,
             RoundSpawnRequestHandler onRoundSpawnRequest,
             RoundEndHandler onRoundEnd,
             RoundLastEndHandler onRoundLastEnd
@@ -38,9 +41,12 @@ namespace PandaIsPanda
         {
             OnRoundBegin -= onRoundBegin;
             OnRoundBegin += onRoundBegin;
-            
+
             OnRoundSec -= onRoundSec;
             OnRoundSec += onRoundSec;
+            
+            OnRoundSecInt -= onRoundSecInt;
+            OnRoundSecInt += onRoundSecInt;
             
             OnRoundSpawnRequest -= onRoundSpawnRequest;
             OnRoundSpawnRequest += onRoundSpawnRequest;
@@ -78,6 +84,11 @@ namespace PandaIsPanda
         private void InvokeRoundSec(RoundData roundData)
         {
             OnRoundSec?.Invoke(roundData);
+        }
+        
+        private void InvokeRoundSecInt(RoundData roundData)
+        {
+            OnRoundSecInt?.Invoke(roundData);
             
             foreach ((_, SpawnEventData spawnEventData) in roundData.SpawnEventData)
             {
@@ -105,17 +116,19 @@ namespace PandaIsPanda
         
         private IEnumerator CoTimer(RoundData roundData)
         {
-            InvokeRoundSec(roundData); // 최초의 값은 무조건 동일하므로
+            InvokeRoundSecInt(roundData); // 최초의 값은 무조건 동일하므로
+            InvokeRoundSec(roundData);
             
             for (float timerSec = roundData.Constant.Duration; timerSec > 0.0f; timerSec -= Time.deltaTime)
             {
-                int sec = Mathf.CeilToInt(timerSec);
+                roundData.SetTimerSec(timerSec);
+                InvokeRoundSec(roundData);
                 
-                if (roundData.TimerSecInt != sec)
+                int secInt = Mathf.CeilToInt(timerSec);
+                if (roundData.TimerSecInt != secInt)
                 {
-                    roundData.SetTimerSec(Mathf.CeilToInt(timerSec));
-                    
-                    InvokeRoundSec(roundData);
+                    roundData.SetTimerSecInt(Mathf.CeilToInt(timerSec));
+                    InvokeRoundSecInt(roundData);
                 }
                 
                 yield return null;

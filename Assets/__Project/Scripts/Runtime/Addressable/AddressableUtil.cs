@@ -78,23 +78,23 @@ public static class AddressableUtil
     
     #endregion
 
-    public static T Instantiate<T>(string address, bool isUnique) where T : Object
+    public static T Instantiate<T>(string address, bool isUnique, Transform parent = null) where T : Object
     {
         T mem = Load<T>(address);
         
-        return GetInstance(address, mem, isUnique);
+        return GetInstance(address, mem, isUnique, parent);
     }
 
-    public static async UniTask<T> InstantiateAsync<T>(string address, bool isUnique) where T : Object
+    public static async UniTask<T> InstantiateAsync<T>(string address, bool isUnique, Transform parent = null) where T : Object
     {
         T mem = await LoadAsync<T>(address);
         
-        return GetInstance(address, mem, isUnique);
+        return GetInstance(address, mem, isUnique, parent);
     }
 
     #region # Private
 
-    private static T GetInstance<T>(string address, T mem, bool isUnique) where T : Object
+    private static T GetInstance<T>(string address, T mem, bool isUnique, Transform parent) where T : Object
     {
         T ins;
 
@@ -106,14 +106,14 @@ public static class AddressableUtil
             }
             else
             {
-                ins = Object.Instantiate(mem);
+                ins = Object.Instantiate(mem, parent);
                 objList.Add(ins);
                 
             }
         }
         else
         {
-            ins = Object.Instantiate(mem);
+            ins = Object.Instantiate(mem, parent);
             m_spawnObjDict.Add(address, new List<Object>() { ins });
         }
 

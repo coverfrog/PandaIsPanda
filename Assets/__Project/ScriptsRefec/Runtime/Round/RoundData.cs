@@ -11,6 +11,8 @@ namespace PandaIsPanda
         public IReadOnlyDictionary<ulong, SpawnEventData> SpawnEventData { get; }
 
         public int TimerSecInt { get; private set; }
+        
+        public float TimerSec { get; private set; }
 
         public RoundData
         (
@@ -20,6 +22,7 @@ namespace PandaIsPanda
         {
             Constant = constant;
             TimerSecInt = Convert.ToInt32(constant.Duration);
+            TimerSec = constant.Duration;
 
             Dictionary<ulong, SpawnEventData> spawnEventData = new Dictionary<ulong, SpawnEventData>();
             foreach (ulong spawnEventId in Constant.SpawnEventIds)
@@ -35,9 +38,14 @@ namespace PandaIsPanda
             SpawnEventData = spawnEventData;
         }
 
-        public RoundData SetTimerSec(int timerSec)
+        public RoundData SetTimerSecInt(int timerSecInt)
         {
-            TimerSecInt = timerSec; return this;
+            TimerSecInt = timerSecInt; return this;
+        }
+
+        public RoundData SetTimerSec(float timerSec)
+        {
+            TimerSec = timerSec; return this;
         }
     }
 }

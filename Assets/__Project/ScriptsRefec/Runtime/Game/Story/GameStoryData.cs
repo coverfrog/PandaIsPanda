@@ -1,11 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace PandaIsPanda
 {
     [Serializable]
     public class GameStoryData
     {
+        [SerializeField] private ReactiveProperty<int> m_enemyCount = new(0);
+
+        public ReactiveProperty<int> EnemyCount => m_enemyCount;
+
+        [SerializeField] private ReactiveProperty<ulong> m_round = new(1);
         
+        public ReactiveProperty<ulong> Round => m_round;
+        
+        [SerializeField] private ReactiveProperty<float> m_timer = new ReactiveProperty<float>(0);
+        
+        public ReactiveProperty<float> Timer => m_timer;
     }
 }
