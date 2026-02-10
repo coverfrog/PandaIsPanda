@@ -18,7 +18,7 @@ MonoBehaviour:
     - m_id: 1
       m_unitId: 1
       m_spawnEventTriggerType: 0
-      m_callCount: 5
+      m_callCount: 1
       m_spawnCount: 1
     - m_id: 2
       m_unitId: 2
