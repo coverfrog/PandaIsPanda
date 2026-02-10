@@ -10,6 +10,7 @@ namespace PandaIsPanda
     {
         [Header("# References")]
         [SerializeField] private Round m_round;
+        [SerializeField] private PointCircleGroup m_pointCircleGroup;
         
         private IObjectPool<Unit> m_enemyPool;
 
@@ -20,7 +21,7 @@ namespace PandaIsPanda
 
         public void Setup()
         {
-            m_enemyPool = new ObjectPool<Unit>(OnUnitCreate, OnUnitGet, OnUnitRelease, OnUnitDestroy);
+            m_enemyPool = new ObjectPool<Unit>(OnEnemyCreate, OnEnemyGet, OnEnemyRelease, OnEnemyDestroy);
             
             m_round.Setup
             (
@@ -62,7 +63,15 @@ namespace PandaIsPanda
                 var unitConstant = DataManager.Instance.UnitConstants[spawnId];
                 var unitData = new UnitData(unitConstant);                
                 
-                unit.Setup(unitData);
+                unit.Setup
+                (
+                    unitData
+                );
+
+                if (unit.gameObject.TryGetComponent(out PointFollower pointFollower))
+                {
+                    pointFollower.Follow();
+                }
             }
 
             spawnEventData.AddCallCount();
@@ -83,25 +92,30 @@ namespace PandaIsPanda
 
         #region # On UnitSpawn
 
-        private Unit OnUnitCreate()
+        private Unit OnEnemyCreate()
         {
-            return AddressableUtil.Instantiate<Unit>("unit/unit", false);
+            var unit = AddressableUtil.Instantiate<Unit>("unit/unit", false);
+            var pointFollower = unit.gameObject.AddComponent<PointFollower>();
+            
+            pointFollower.Setup(m_pointCircleGroup.Points);
+            
+            return unit;
         }
         
-        private void OnUnitGet(Unit unit)
+        private void OnEnemyGet(Unit unit)
         {
-            
+            unit.gameObject.SetActive(true);
         }
 
-        private void OnUnitRelease(Unit unit)
+        private void OnEnemyRelease(Unit unit)
         {
-            
+            unit.gameObject.SetActive(false);
         }
 
         
-        private void OnUnitDestroy(Unit unit)
+        private void OnEnemyDestroy(Unit unit)
         {
-            
+            Destroy(unit.gameObject);
         }
 
         #endregion

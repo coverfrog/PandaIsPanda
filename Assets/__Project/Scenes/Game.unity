@@ -246,7 +246,7 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
---- !u!1 &1125229052
+--- !u!1 &944314722
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -254,22 +254,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1125229053}
-  - component: {fileID: 1125229054}
+  - component: {fileID: 944314723}
+  - component: {fileID: 944314724}
   m_Layer: 0
-  m_Name: Board
+  m_Name: Point Circle Group
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1125229053
+--- !u!4 &944314723
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1125229052}
+  m_GameObject: {fileID: 944314722}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -278,18 +278,92 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1527067812}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1125229054
+--- !u!114 &944314724
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1125229052}
+  m_GameObject: {fileID: 944314722}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91130f29923441b2b6a94d1f583c9d60, type: 3}
+  m_Script: {fileID: 11500000, guid: f89e20d66a3645e8bc838309e0c7c3cf, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PandaIsPanda.Board
+  m_EditorClassIdentifier: Assembly-CSharp::PandaIsPanda.CornerGroup
+  m_edgeCount: 70
+  m_radius: 15
+  m_gizmoColor: {r: 0, g: 1, b: 0, a: 1}
+  m_points:
+  - {x: 0, y: 0, z: 15}
+  - {x: 1.3445896, y: 0, z: 14.939614}
+  - {x: 2.6783533, y: 0, z: 14.758944}
+  - {x: 3.9905527, y: 0, z: 14.459443}
+  - {x: 5.2706227, y: 0, z: 14.043524}
+  - {x: 6.5082564, y: 0, z: 13.514533}
+  - {x: 7.693489, y: 0, z: 12.876732}
+  - {x: 8.816778, y: 0, z: 12.135255}
+  - {x: 9.869081, y: 0, z: 11.296072}
+  - {x: 10.841923, y: 0, z: 10.36594}
+  - {x: 11.727472, y: 0, z: 9.352347}
+  - {x: 12.518599, y: 0, z: 8.263455}
+  - {x: 13.208933, y: 0, z: 7.1080303}
+  - {x: 13.792916, y: 0, z: 5.8953757}
+  - {x: 14.265848, y: 0, z: 4.6352544}
+  - {x: 14.623919, y: 0, z: 3.3378146}
+  - {x: 14.864246, y: 0, z: 2.0134993}
+  - {x: 14.984896, y: 0, z: 0.6729721}
+  - {x: 14.984897, y: 0, z: -0.6729716}
+  - {x: 14.864246, y: 0, z: -2.0134988}
+  - {x: 14.623919, y: 0, z: -3.3378143}
+  - {x: 14.265848, y: 0, z: -4.635254}
+  - {x: 13.792916, y: 0, z: -5.8953753}
+  - {x: 13.208934, y: 0, z: -7.1080284}
+  - {x: 12.518599, y: 0, z: -8.263454}
+  - {x: 11.727472, y: 0, z: -9.352347}
+  - {x: 10.841924, y: 0, z: -10.365939}
+  - {x: 9.869081, y: 0, z: -11.296072}
+  - {x: 8.816778, y: 0, z: -12.135256}
+  - {x: 7.693491, y: 0, z: -12.876731}
+  - {x: 6.5082574, y: 0, z: -13.514533}
+  - {x: 5.270623, y: 0, z: -14.043523}
+  - {x: 3.990553, y: 0, z: -14.459443}
+  - {x: 2.678353, y: 0, z: -14.758944}
+  - {x: 1.3445889, y: 0, z: -14.939614}
+  - {x: -0.0000013113416, y: 0, z: -15}
+  - {x: -1.3445879, y: 0, z: -14.939614}
+  - {x: -2.678352, y: 0, z: -14.758944}
+  - {x: -3.9905522, y: 0, z: -14.459443}
+  - {x: -5.2706223, y: 0, z: -14.043524}
+  - {x: -6.5082564, y: 0, z: -13.514533}
+  - {x: -7.69349, y: 0, z: -12.876731}
+  - {x: -8.816777, y: 0, z: -12.135256}
+  - {x: -9.86908, y: 0, z: -11.296073}
+  - {x: -10.841923, y: 0, z: -10.36594}
+  - {x: -11.727469, y: 0, z: -9.35235}
+  - {x: -12.518598, y: 0, z: -8.263457}
+  - {x: -13.208932, y: 0, z: -7.108032}
+  - {x: -13.792915, y: 0, z: -5.895377}
+  - {x: -14.265847, y: 0, z: -4.6352563}
+  - {x: -14.623919, y: 0, z: -3.337815}
+  - {x: -14.864246, y: 0, z: -2.0134997}
+  - {x: -14.984896, y: 0, z: -0.67297256}
+  - {x: -14.984896, y: 0, z: 0.6729729}
+  - {x: -14.864246, y: 0, z: 2.0135}
+  - {x: -14.623919, y: 0, z: 3.3378155}
+  - {x: -14.265847, y: 0, z: 4.635257}
+  - {x: -13.792915, y: 0, z: 5.8953776}
+  - {x: -13.208935, y: 0, z: 7.1080265}
+  - {x: -12.5186, y: 0, z: 8.263452}
+  - {x: -11.727474, y: 0, z: 9.352345}
+  - {x: -10.841925, y: 0, z: 10.365937}
+  - {x: -9.869082, y: 0, z: 11.29607}
+  - {x: -8.816779, y: 0, z: 12.135254}
+  - {x: -7.69349, y: 0, z: 12.876731}
+  - {x: -6.5082564, y: 0, z: 13.514533}
+  - {x: -5.2706223, y: 0, z: 14.043524}
+  - {x: -3.9905517, y: 0, z: 14.459443}
+  - {x: -2.6783519, y: 0, z: 14.7589445}
+  - {x: -1.3445876, y: 0, z: 14.939614}
 --- !u!1 &1198523213
 GameObject:
   m_ObjectHideFlags: 0
@@ -415,7 +489,7 @@ Camera:
   m_GameObject: {fileID: 1519012816}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 2
+  m_ClearFlags: 1
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -547,7 +621,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1477989377}
-  - {fileID: 1125229053}
+  - {fileID: 944314723}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1527067813
@@ -563,7 +637,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PandaIsPanda.GameStory
   m_round: {fileID: 1477989378}
-  m_board: {fileID: 1125229054}
+  m_pointCircleGroup: {fileID: 944314724}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
