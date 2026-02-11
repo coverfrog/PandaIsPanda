@@ -15,6 +15,11 @@ MonoBehaviour:
   m_GroupName: ConstantTable
   m_GUID: 0d3b3717427d1f147b577c38849a65ae
   m_SerializeEntries:
+  - m_GUID: 02cf1b72d84aaf04b84d4a331e1c7e20
+    m_Address: constanttable/roundgachanormal
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 19277c1a4e911da41ab70fdd296a409f
     m_Address: constanttable/item
     m_ReadOnly: 0
@@ -27,6 +32,21 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 77bbeadfed505654b955d8132901ef0c
     m_Address: constanttable/spawnevent
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7b69883300b96c54391725ac3cf9c75f
+    m_Address: constanttable/gachacost
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7c26ac5c27d37c84b9d2a6493a903ad5
+    m_Address: constanttable/roundgachaunique
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8debed05db50a3447a2cc39de67a9de9
+    m_Address: constanttable/giveitemevent
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

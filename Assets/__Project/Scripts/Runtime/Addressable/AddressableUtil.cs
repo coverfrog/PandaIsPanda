@@ -12,7 +12,7 @@ public static class AddressableUtil
     
     private static readonly Dictionary<string, AsyncOperationHandle> m_handleDict = new();
     
-    private static readonly Dictionary<string, List<Object>> m_spawnObjDict = new();
+    private static readonly Dictionary<string, Object> m_spawnObjDict = new();
     
     public static T Load<T>(string address)
     {
@@ -98,23 +98,21 @@ public static class AddressableUtil
     {
         T ins;
 
-        if (m_spawnObjDict.TryGetValue(address, out List<Object> objList))
+        if (m_spawnObjDict.TryGetValue(address, out Object obj))
         {
             if (isUnique)
             {
-                ins = objList[0] as T;
+                ins = obj as T;
             }
             else
             {
                 ins = Object.Instantiate(mem, parent);
-                objList.Add(ins);
-                
             }
         }
         else
         {
             ins = Object.Instantiate(mem, parent);
-            m_spawnObjDict.Add(address, new List<Object>() { ins });
+            m_spawnObjDict.Add(address, ins);
         }
 
         return ins;

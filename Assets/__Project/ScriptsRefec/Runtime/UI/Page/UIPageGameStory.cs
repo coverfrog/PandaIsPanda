@@ -1,37 +1,117 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using RTLTMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace PandaIsPanda
 {
     public class UIPageGameStory : UIPage
     {
+        #region # Event
+
+        public delegate void GachaRequestHandler(ulong costId);
+        
+        public event GachaRequestHandler OnGachaRequest;
+
+        #endregion
+        
         [Header("# References")]
         [SerializeField] private RTLTextMeshPro m_txtRound;
         [SerializeField] private RTLTextMeshPro m_txtTimer;
         [SerializeField] private RTLTextMeshPro m_txtUnitCount;
         [SerializeField] private RTLTextMeshPro m_txtGold;
         [SerializeField] private RTLTextMeshPro m_txtBamboo;
-        
-        public void Open(ulong sessionId)
+        [SerializeField] private Button m_btnGachaNormal;
+        [SerializeField] private Button m_btnGachaUnique;
+
+        public void Open
+        (
+            GameStoryData data,
+            GachaRequestHandler onGachaRequest
+        )
         {
-            var data = DataManager.Instance.GameStoryData[sessionId];
+            OnGachaRequest -= onGachaRequest;
+            OnGachaRequest += onGachaRequest;
+            
+            OnEnemyCountChanged(data.EnemyCount.Value);
             
             data.EnemyCount.OnValueChanged -= OnEnemyCountChanged;
             data.EnemyCount.OnValueChanged += OnEnemyCountChanged;
             
-            OnEnemyCountChanged(data.EnemyCount.Value);
+            OnRoundChanged(data.Round.Value);
             
             data.Round.OnValueChanged -= OnRoundChanged;
             data.Round.OnValueChanged += OnRoundChanged;
 
-            OnRoundChanged(data.Round.Value);
+            OnTimerChanged(data.Timer.Value);
             
             data.Timer.OnValueChanged -= OnTimerChanged;
             data.Timer.OnValueChanged += OnTimerChanged;
             
-            OnTimerChanged(data.Timer.Value);
+            OnItemsUpdate(null);
             
+            data.InventoryData.OnItemUpdate -= OnItemsUpdate;
+            data.InventoryData.OnItemUpdate += OnItemsUpdate;
+
+        }
+
+        private void OnItemsUpdate(List<ItemData> inventoryItems)
+        {
+            int goldCount = 0;
+            int bambooCount = 0;
+
+            if (inventoryItems != null)
+            {
+                ItemData goldItem = inventoryItems.Find(i => i.Constant.Id == ItemKey.k_gold);
+                ItemData bambooItem = inventoryItems.Find(i => i.Constant.Id == ItemKey.k_bamboo);
+                
+                goldCount = goldItem != null ? goldItem.Count : 0;
+                bambooCount = bambooItem != null ? bambooItem.Count : 0;
+            }
+            
+            if (m_txtGold)
+                m_txtGold.text = $"Gold : {goldCount}";
+            
+            if (m_txtBamboo)
+                m_txtBamboo.text = $"Bamboo : {bambooCount}";
+
+            EnableGachaBtn(inventoryItems, m_btnGachaNormal, GachaCostKey.k_roundNormal);
+            EnableGachaBtn(inventoryItems, m_btnGachaUnique, GachaCostKey.k_roundUnique);
+        }
+
+        private void EnableGachaBtn(List<ItemData> inventoryItem, Button button, ulong costId)
+        {
+            var enable = true;
+
+            if (inventoryItem != null)
+            {
+                var costItems = DataManager.Instance.GachaCostConstants[costId].CostItems;
+            
+                foreach (CountValue<ulong> cv in costItems)
+                {
+                    var haveItems = inventoryItem.Where(item => item.Constant.Id == cv.value).ToList();
+                    if (!haveItems.Any())
+                    {
+                        enable = false;
+                        break;
+                    }
+                
+                    var haveCount = haveItems.Sum(item => item.Count);
+                    if (cv.count > haveCount)
+                    {
+                        enable = false;
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                enable = false;
+            }
+
+            button.interactable = enable;
         }
 
         private void OnTimerChanged(float value)
@@ -40,7 +120,7 @@ namespace PandaIsPanda
                 !m_txtTimer)
                 return;
             
-            m_txtTimer.text = $"Timer : {value:0.0}";
+            m_txtTimer.text = $"Timer : {value:00.0}";
         }
 
         private void OnRoundChanged(ulong value)
@@ -59,6 +139,16 @@ namespace PandaIsPanda
                 return;
 
             m_txtUnitCount.text = $"Unit Count: {value}";
+        }
+        
+        public void Invoke_GachaRequestNormal()
+        {
+            OnGachaRequest?.Invoke(GachaCostKey.k_roundNormal);
+        }
+
+        public void Invoke_GachaRequestUnique()
+        {
+            OnGachaRequest?.Invoke(GachaCostKey.k_roundUnique);
         }
     }
 }

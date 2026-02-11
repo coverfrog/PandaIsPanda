@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Pool;
+using Random = System.Random;
 
 namespace PandaIsPanda
 {
@@ -15,7 +18,7 @@ namespace PandaIsPanda
         private IObjectPool<Unit> m_enemyPool;
 
         private ulong m_sessionId;
-
+        
         private void OnDestroy()
         {
             m_enemyPool?.Clear();
@@ -23,7 +26,10 @@ namespace PandaIsPanda
 
         public void Setup()
         {
-            DataManager.Instance.GameStoryData.TryAdd(m_sessionId, new GameStoryData());
+            if (!DataManager.Instance.GameStoryData.TryAdd(m_sessionId, new GameStoryData()))
+                DataManager.Instance.GameStoryData[m_sessionId] = new GameStoryData();
+            
+            GameStoryData data = DataManager.Instance.GameStoryData[m_sessionId];
             
             m_enemyPool = new ObjectPool<Unit>(OnEnemyCreate, OnEnemyGet, OnEnemyRelease, OnEnemyDestroy);
             
@@ -33,35 +39,40 @@ namespace PandaIsPanda
                 OnRoundSec,
                 OnRoundSecInt,
                 OnRoundSpawnRequest,
+                OnRoundGiveItemRequest, 
                 OnRoundEnd,
                 OnRoundLastEnd
+            );
+
+            var ui = UIManager.Instance.GetPage<UIPageGameStory>(UIPageType.GameStory);
+            ui.Open
+            (
+                data,
+                OnUIGachaRequest
             );
             
             Play();
         }
 
-      
-
         public void Play()
         {
             m_round.Play();
-
-            UIPageGameStory ui = UIManager.Instance.GetPage<UIPageGameStory>(UIPageType.GameStory);
-            ui.Open(m_sessionId);
         }
 
-        #region # On Round
+        #region # OnRound
 
         public void OnRoundBegin(RoundData roundData)
         {
             LogUtil.Log($"[{nameof(GameStory)}] 라운드 시작 Id: {roundData.Constant.Id}");
             
-            DataManager.Instance.GameStoryData[m_sessionId].Round.Value = roundData.Constant.Id;
+            var data = DataManager.Instance.GameStoryData[m_sessionId];
+            data.Round.Value = roundData.Constant.Id;
         }
         
         private void OnRoundSec(RoundData roundData)
         {
-            DataManager.Instance.GameStoryData[m_sessionId].Timer.Value = roundData.TimerSec;
+            var data = DataManager.Instance.GameStoryData[m_sessionId];
+            data.Timer.Value = roundData.TimerSec;
         }
         
         private void OnRoundSecInt(RoundData roundData)
@@ -94,6 +105,22 @@ namespace PandaIsPanda
             spawnEventData.AddCallCount();
             
             // LogUtil.Log($"[{nameof(GameStory)}] 소환");
+        }
+        
+        private void OnRoundGiveItemRequest(GiveItemEventData giveItemEventData)
+        {
+            var data = DataManager.Instance.GameStoryData[m_sessionId];
+            var inventory = data.InventoryData;
+            
+            foreach (CountValue<ulong> itemCv in giveItemEventData.Constant.GiveItems)
+            {
+                ulong id = itemCv.value;
+                int count = itemCv.count;
+                
+                inventory.AddItem(id.ToItemData(count));
+            }
+
+            giveItemEventData.Call();
         }
         
         private void OnRoundEnd(RoundData roundData)
@@ -136,6 +163,57 @@ namespace PandaIsPanda
         private void OnEnemyDestroy(Unit unit)
         {
             Destroy(unit.gameObject);
+        }
+
+        #endregion
+
+        #region # OnUI
+
+        private void OnUIGachaRequest(ulong costId)
+        {
+            IReadOnlyDictionary<ulong, GachaConstant> gachaConstants = costId switch
+            {
+                GachaCostKey.k_roundNormal => DataManager.Instance.RoundGachaNormalConstants,
+                GachaCostKey.k_roundUnique => DataManager.Instance.RoundGachaUniqueConstants,
+                _ => null
+            };
+            
+
+            if (gachaConstants == null)
+                return;
+
+            double total = gachaConstants.Values.Sum(c => c.Probability);
+            double rand = new Random().NextDouble() * total;
+
+            double cumulative = 0.0f;
+            GachaConstant gachaConstantSelect = null;
+            
+            foreach (GachaConstant gachaConstant in gachaConstants.Values)
+            {
+                cumulative += gachaConstant.Probability;
+                if (rand > cumulative)
+                {
+                    continue;
+                }
+                
+                gachaConstantSelect = gachaConstant;
+                break;
+            }
+
+            if (gachaConstantSelect == null)
+                return;
+            
+            var costItems = DataManager.Instance.GachaCostConstants[costId].CostItems;
+            var unitId = gachaConstantSelect.UnitId;
+            var data = DataManager.Instance.GameStoryData[m_sessionId];
+            var inventory = data.InventoryData;
+            
+            foreach (CountValue<ulong> cv in costItems)
+            {
+                inventory.RemoveItem(cv);
+            }
+            
+            LogUtil.Log($"[{nameof(GameStory)}] 가챠 요청 - {costId} - {unitId}");
         }
 
         #endregion

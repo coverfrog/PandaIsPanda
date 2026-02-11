@@ -10,18 +10,22 @@ namespace PandaIsPanda
         [SerializeField] private ulong m_id;
         [SerializeField] private ulong m_nextId;
         [SerializeField] private List<ulong> m_spawnEventIds;
+        [SerializeField] private List<ulong> m_giveItemEventIds;
         [SerializeField] private float m_duration;
         
         public ulong Id => m_id;
         public ulong NextId => m_nextId;
         public IReadOnlyList<ulong> SpawnEventIds => m_spawnEventIds;
+        
+        public IReadOnlyList<ulong> GiveItemEventIds => m_giveItemEventIds;
         public float Duration => m_duration;
 
-        public RoundConstant(ulong id, ulong nextId, List<ulong> spawnEventIds, float duration)
+        public RoundConstant(ulong id, ulong nextId, List<ulong> spawnEventIds, List<ulong> giveItemEventIds, float duration)
         {
             m_id = id;
             m_nextId = nextId;
             m_spawnEventIds = spawnEventIds;
+            m_giveItemEventIds = giveItemEventIds;
             m_duration = duration;
         }
     }

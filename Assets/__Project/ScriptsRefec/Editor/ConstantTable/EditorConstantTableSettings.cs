@@ -16,6 +16,10 @@ public static class EditorConstantTableSettings
         { "SpawnEvent"      , "SpawnEventConstantTable"      },
         { "LocalizationText", "LocalizationTextConstantTable"},
         { "Item"            , "ItemConstantTable"            },
+        { "GiveItemEvent"   , "GiveItemEventConstantTable"   },
+        { "RoundGachaNormal", "GachaConstantTable"           },
+        { "RoundGachaUnique", "GachaConstantTable"           },
+        { "GachaCost"       , "GachaCostConstantTable"       },
     };
 }
 #endif

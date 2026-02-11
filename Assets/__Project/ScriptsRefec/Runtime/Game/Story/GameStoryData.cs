@@ -18,5 +18,9 @@ namespace PandaIsPanda
         [SerializeField] private ReactiveProperty<float> m_timer = new ReactiveProperty<float>(0);
         
         public ReactiveProperty<float> Timer => m_timer;
+        
+        [SerializeField] private InventoryData m_inventoryData = new();
+        
+        public InventoryData InventoryData => m_inventoryData;
     }
 }

@@ -18,20 +18,25 @@ MonoBehaviour:
     - m_id: 1
       m_nextId: 2
       m_spawnEventIds: 0100000000000000
+      m_giveItemEventIds: 0100000000000000
       m_duration: 10
     - m_id: 2
       m_nextId: 3
       m_spawnEventIds: 0200000000000000
+      m_giveItemEventIds: 0100000000000000
       m_duration: 10
     - m_id: 3
       m_nextId: 4
       m_spawnEventIds: 0300000000000000
+      m_giveItemEventIds: 0100000000000000
       m_duration: 10
     - m_id: 4
       m_nextId: 5
       m_spawnEventIds: 0400000000000000
+      m_giveItemEventIds: 0100000000000000
       m_duration: 10
     - m_id: 5
       m_nextId: 0
       m_spawnEventIds: 0500000000000000
+      m_giveItemEventIds: 0100000000000000
       m_duration: 10

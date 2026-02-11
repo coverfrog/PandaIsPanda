@@ -28,5 +28,15 @@ namespace PandaIsPanda
             Constant = constant;
             Count = count;
         }
+
+        public int AddCount(int count)
+        {
+            Count += count; return Count;
+        }
+
+        public int ReduceCount(int count)
+        {
+            Count -= count; return Count;
+        }
     }
 }

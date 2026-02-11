@@ -9,6 +9,8 @@ namespace PandaIsPanda
         public RoundConstant Constant { get; }
 
         public IReadOnlyDictionary<ulong, SpawnEventData> SpawnEventData { get; }
+        
+        public IReadOnlyDictionary<ulong, GiveItemEventData> GiveItemEventData { get; }
 
         public int TimerSecInt { get; private set; }
         
@@ -17,8 +19,8 @@ namespace PandaIsPanda
         public RoundData
         (
             RoundConstant constant,
-            IReadOnlyDictionary<ulong, SpawnEventConstant> spawnEventConstants
-        )
+            IReadOnlyDictionary<ulong, SpawnEventConstant> spawnEventConstants,
+            IReadOnlyDictionary<ulong, GiveItemEventConstant> giveItemEventConstants)
         {
             Constant = constant;
             TimerSecInt = Convert.ToInt32(constant.Duration);
@@ -36,6 +38,19 @@ namespace PandaIsPanda
             }
             
             SpawnEventData = spawnEventData;
+            
+            Dictionary<ulong, GiveItemEventData> giveItemEventData = new Dictionary<ulong, GiveItemEventData>();
+            foreach (ulong giveItemEventId in Constant.GiveItemEventIds)
+            {
+                if (giveItemEventId != 0 &&
+                    giveItemEventConstants != null &&
+                    giveItemEventConstants.TryGetValue(giveItemEventId, out var giveItemEventConstant))
+                {
+                    giveItemEventData.Add(giveItemEventId, new GiveItemEventData(giveItemEventConstant));
+                }
+            }
+            
+            GiveItemEventData = giveItemEventData;
         }
 
         public RoundData SetTimerSecInt(int timerSecInt)

@@ -33,10 +33,11 @@ namespace PandaIsPanda
                 
                 ulong id = Convert.ToUInt64(columns[0]);
                 ulong nextId = Convert.ToUInt64(columns[1]);
-                List<ulong> spawnIds = Convert.ToString(columns[2]).Split('_').Select(s =>Convert.ToUInt64(s)).ToList();
-                float duration = Convert.ToSingle(columns[3]);
+                List<ulong> spawnEventIds = Convert.ToString(columns[2]).Split('_').Select(s =>Convert.ToUInt64(s)).ToList();
+                List<ulong> giveItemEventIds = Convert.ToString(columns[3]).Split('_').Select(s =>Convert.ToUInt64(s)).ToList();
+                float duration = Convert.ToSingle(columns[4]);
                 
-                var constant = new RoundConstant(id, nextId, spawnIds, duration);
+                var constant = new RoundConstant(id, nextId, spawnEventIds, giveItemEventIds, duration);
                 
                 m_data.Add(id, constant);
             }

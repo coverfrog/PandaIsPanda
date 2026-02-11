@@ -8,8 +8,6 @@ namespace PandaIsPanda
 {
     public class DataManager : MonoBehaviour
     {
-        public Dictionary<ulong, InventoryData> InventoryData { get; } = new();
-        
         public Dictionary<ulong, GameStoryData> GameStoryData { get; } = new();
         
         public IReadOnlyDictionary<ulong, RoundConstant> RoundConstants { get; private set; }
@@ -21,6 +19,14 @@ namespace PandaIsPanda
         public IReadOnlyDictionary<ulong, LocalizationTextConstant> LocalizationTextConstants { get; private set; }
         
         public IReadOnlyDictionary<ulong, ItemConstant> ItemConstants { get; private set; }
+        
+        public IReadOnlyDictionary<ulong, GiveItemEventConstant> GiveItemEventConstants { get; private set; }
+        
+        public IReadOnlyDictionary<ulong, GachaConstant> RoundGachaNormalConstants { get; private set; }
+        
+        public IReadOnlyDictionary<ulong, GachaConstant> RoundGachaUniqueConstants { get; private set; }
+        
+        public IReadOnlyDictionary<ulong, GachaCostConstant> GachaCostConstants { get; private set; }
         
         public async UniTask LoadAllAsync()
         {
@@ -39,7 +45,19 @@ namespace PandaIsPanda
                     .ContinueWith(d => LocalizationTextConstants = d.Data),
             
                 AddressableUtil.LoadAsync<ItemConstantTable>("constanttable/item")
-                    .ContinueWith(d => ItemConstants = d.Data)
+                    .ContinueWith(d => ItemConstants = d.Data),
+              
+                AddressableUtil.LoadAsync<GiveItemEventConstantTable>("constanttable/giveitemevent")
+                    .ContinueWith(d => GiveItemEventConstants = d.Data),
+                
+                AddressableUtil.LoadAsync<GachaConstantTable>("constanttable/roundgachanormal")
+                    .ContinueWith(d => RoundGachaNormalConstants = d.Data),
+                
+                AddressableUtil.LoadAsync<GachaConstantTable>("constanttable/roundgachaunique")
+                    .ContinueWith(d => RoundGachaUniqueConstants = d.Data),
+                
+                AddressableUtil.LoadAsync<GachaCostConstantTable>("constanttable/gachacost")
+                    .ContinueWith(d => GachaCostConstants = d.Data)
                 );
         }
         
