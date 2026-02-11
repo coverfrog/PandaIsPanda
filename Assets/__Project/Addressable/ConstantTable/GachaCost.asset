@@ -13,5 +13,17 @@ MonoBehaviour:
   m_Name: GachaCost
   m_EditorClassIdentifier: Assembly-CSharp::PandaIsPanda.GachaCostConstantTable
   m_data:
-    _keys: 
-    _values: []
+    _keys: 01000000000000000200000000000000
+    _values:
+    - m_id: 1
+      m_costItems:
+      - value: 1
+        count: 100
+      - value: 2
+        count: 1
+    - m_id: 2
+      m_costItems:
+      - value: 1
+        count: 100
+      - value: 2
+        count: 2

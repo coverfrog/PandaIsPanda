@@ -138,7 +138,7 @@ namespace PandaIsPanda
                 !m_txtUnitCount)
                 return;
 
-            m_txtUnitCount.text = $"Unit Count: {value}";
+            m_txtUnitCount.text = $"Enemy Count: {value}";
         }
         
         public void Invoke_GachaRequestNormal()

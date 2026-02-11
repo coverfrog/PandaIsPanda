@@ -36,7 +36,7 @@ namespace PandaIsPanda
             }            
         }
 
-        private void OnDrawGizmosSelected()
+        private void OnDrawGizmos()
         {
             if (m_points == null ||
                 m_points.Count < 2)

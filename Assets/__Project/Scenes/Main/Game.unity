@@ -512,7 +512,7 @@ GameObject:
   - component: {fileID: 944314723}
   - component: {fileID: 944314724}
   m_Layer: 0
-  m_Name: Point Circle Group
+  m_Name: Points (Enemy)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -599,6 +599,58 @@ MonoBehaviour:
   - {x: -2.9449928, y: 0, z: 7.4382133}
   - {x: -1.9895148, y: 0, z: 7.7486663}
   - {x: -1.0026649, y: 0, z: 7.936918}
+--- !u!1 &978939728
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 978939729}
+  - component: {fileID: 978939730}
+  m_Layer: 0
+  m_Name: Points (Alias)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &978939729
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 978939728}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1527067812}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &978939730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 978939728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f89e20d66a3645e8bc838309e0c7c3cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PandaIsPanda.CornerGroup
+  m_edgeCount: 4
+  m_radius: 4
+  m_gizmoColor: {r: 0.7959391, g: 1, b: 0, a: 1}
+  m_points:
+  - {x: 0, y: 0, z: 4}
+  - {x: 4, y: 0, z: -0.00000017484555}
+  - {x: -0.0000003496911, y: 0, z: -4}
+  - {x: -4, y: 0, z: 0.000000047699523}
 --- !u!1 &1198523213
 GameObject:
   m_ObjectHideFlags: 0
@@ -857,6 +909,7 @@ Transform:
   m_Children:
   - {fileID: 1477989377}
   - {fileID: 944314723}
+  - {fileID: 978939729}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1527067813
@@ -872,7 +925,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PandaIsPanda.GameStory
   m_round: {fileID: 1477989378}
-  m_pointCircleGroup: {fileID: 944314724}
+  m_pointsEnemy: {fileID: 944314724}
+  m_pointsAlias: {fileID: 978939730}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

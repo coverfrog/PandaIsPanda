@@ -13,9 +13,11 @@ namespace PandaIsPanda
     {
         [Header("# References")]
         [SerializeField] private Round m_round;
-        [SerializeField] private PointCircleGroup m_pointCircleGroup;
+        [SerializeField] private PointCircleGroup m_pointsEnemy;
+        [SerializeField] private PointCircleGroup m_pointsAlias;
         
         private IObjectPool<Unit> m_enemyPool;
+        private IObjectPool<Unit> m_aliasPool;
 
         private ulong m_sessionId;
         
@@ -32,6 +34,7 @@ namespace PandaIsPanda
             GameStoryData data = DataManager.Instance.GameStoryData[m_sessionId];
             
             m_enemyPool = new ObjectPool<Unit>(OnEnemyCreate, OnEnemyGet, OnEnemyRelease, OnEnemyDestroy);
+            m_aliasPool = new ObjectPool<Unit>(OnAliasCreate, OnAliasGet, OnAliasRelease, OnAliasDestroy);
             
             m_round.Setup
             (
@@ -141,7 +144,7 @@ namespace PandaIsPanda
             var unit = AddressableUtil.Instantiate<Unit>("unit/unit", false);
             var pointFollower = unit.gameObject.AddComponent<PointFollower>();
             
-            pointFollower.Setup(m_pointCircleGroup.Points);
+            pointFollower.Setup(m_pointsEnemy.Points);
             
             return unit;
         }
@@ -161,6 +164,32 @@ namespace PandaIsPanda
         }
         
         private void OnEnemyDestroy(Unit unit)
+        {
+            Destroy(unit.gameObject);
+        }
+
+        #endregion
+
+        #region # OnAlias
+
+        private Unit OnAliasCreate()
+        {
+            var unit = AddressableUtil.Instantiate<Unit>("unit/unit", false);
+            
+            return unit;
+        }
+        
+        private void OnAliasGet(Unit unit)
+        {
+            unit.gameObject.SetActive(true);
+        }
+
+        private void OnAliasRelease(Unit unit)
+        {
+            unit.gameObject.SetActive(false);
+        }
+        
+        private void OnAliasDestroy(Unit unit)
         {
             Destroy(unit.gameObject);
         }
@@ -212,6 +241,12 @@ namespace PandaIsPanda
             {
                 inventory.RemoveItem(cv);
             }
+
+            var unitConstant = DataManager.Instance.UnitConstants[unitId];
+            var unitData = new UnitData(unitConstant);
+            var unit = m_aliasPool.Get();
+            
+            unit.Setup(unitData);
             
             LogUtil.Log($"[{nameof(GameStory)}] 가챠 요청 - {costId} - {unitId}");
         }
