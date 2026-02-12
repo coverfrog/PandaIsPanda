@@ -12,6 +12,7 @@ namespace PandaIsPanda
         [SerializeField] private ulong m_defaultHpId;
         [SerializeField] private ulong m_defaultMpId;
         
+        public string DevName => m_devName;
         public ulong Id => m_id;
         
         public ulong NameId => m_nameId;

@@ -8,12 +8,18 @@ namespace PandaIsPanda
     {
         [Header("# References")]
         [SerializeField] private FollowerEntity m_followerEntity;
-        
-        public UnitData UnitData { get; private set; }
 
+        [Header("# Runtime")]
+        [SerializeField] private UnitData m_unitData;
+
+        public UnitData UnitData => m_unitData;
+        
         public Unit Setup(UnitData unitData)
         {
-            UnitData = unitData; 
+            m_unitData = unitData;
+            
+            gameObject.name = $"{unitData.Constant.Id}_{unitData.Constant.DevName}";
+            
             return this;
         }
 

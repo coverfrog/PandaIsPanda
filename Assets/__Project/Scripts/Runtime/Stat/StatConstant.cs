@@ -12,8 +12,9 @@ namespace PandaIsPanda
         [SerializeField] private ulong m_nameId;
         [SerializeField] private string m_iconPath;
         [SerializeField] private bool m_isPercentType;
-        [SerializeField] private UnityDictionary<ulong, float> m_defaultStats = new();
+        [SerializeField] private UnityDictionary<ulong, float> m_defaultStats;
         
+        public string DevName => m_devName;
         public ulong Id => m_id;
         
         public ulong NameId => m_nameId;
@@ -31,16 +32,7 @@ namespace PandaIsPanda
         
         public bool IsPercentType => m_isPercentType;
 
-        public IReadOnlyDictionary<ulong, float> DefaultStats
-        {
-            get
-            {
-                if (m_defaultStats != null) return m_defaultStatsReadOnly;
-                return m_defaultStatsReadOnly = m_defaultStats.ToReadOnlyDictionary();
-            }
-        }
-        
-        private IReadOnlyDictionary<ulong, float> m_defaultStatsReadOnly;
+        public IReadOnlyDictionary<ulong, float> DefaultStats => m_defaultStats.ToReadOnlyDictionary();
         
         public StatConstant(string devName, ulong id, ulong nameId, string iconPath, bool isPercentType, UnityDictionary<ulong, float> defaultStats)
         {

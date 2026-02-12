@@ -13,7 +13,11 @@ namespace PandaIsPanda
 
         public delegate void GachaRequestHandler(ulong costId);
         
+        public delegate void SelectUnitHandler(Unit unit);
+        
         public event GachaRequestHandler OnGachaRequest;
+        
+        public event SelectUnitHandler OnSelectUnit;
 
         #endregion
         
@@ -24,21 +28,44 @@ namespace PandaIsPanda
         [SerializeField] private RTLTextMeshPro m_txtEnemyCount;
         [SerializeField] private RTLTextMeshPro m_txtGold;
         [SerializeField] private RTLTextMeshPro m_txtBamboo;
+        [SerializeField] private RTLTextMeshPro m_txtUnitName;
         [SerializeField] private Button m_btnGachaNormal;
         [SerializeField] private Button m_btnGachaUnique;
 
         private GameStoryData m_data;
+        private Camera m_cam;
         
+        private void Awake()
+        {
+            m_cam = Camera.main;
+        }
+
+        #region # Open
+
         public void Open
         (
             GameStoryData data,
-            GachaRequestHandler onGachaRequest
+            GachaRequestHandler onGachaRequest,
+            SelectUnitHandler onSelectUnit
         )
         {
             m_data = data;
             
+            InputManager.Instance.OnPointerClick -= OnPointerClick;
+            InputManager.Instance.OnPointerClick += OnPointerClick;
+            
             OnGachaRequest -= onGachaRequest;
             OnGachaRequest += onGachaRequest;
+            
+            OnSelectUnit -= onSelectUnit;
+            OnSelectUnit += onSelectUnit;
+            
+            //
+            
+            OnSelectUnitChanged(null);
+
+            data.SelectedUnit.OnValueChanged -= OnSelectUnitChanged;
+            data.SelectedUnit.OnValueChanged += OnSelectUnitChanged;
             
             OnAliasCountChanged(data.AliasCount.Value);
 
@@ -64,7 +91,32 @@ namespace PandaIsPanda
             
             data.InventoryData.OnItemUpdate -= OnItemsUpdate;
             data.InventoryData.OnItemUpdate += OnItemsUpdate;
+        }
+        
+        #endregion
+        
+        #region # Reactive
 
+        private void OnPointerClick(bool isClick, Vector2 screenPos)
+        {
+            if (isClick)
+            {
+                Ray ray = m_cam.ScreenPointToRay(screenPos);
+                
+                if (!Physics.Raycast(ray, out RaycastHit hit)) 
+                    return;
+                
+                if (hit.collider &&
+                    hit.collider.transform.parent.TryGetComponent(out Unit unit))
+                {
+                    Invoke_SelectUnit(unit);
+                }
+            }
+
+            else
+            {
+                
+            }
         }
 
         private void OnItemsUpdate(List<ItemData> inventoryItems)
@@ -172,6 +224,31 @@ namespace PandaIsPanda
             EnableGachaBtn(m_btnGachaNormal, GachaCostKey.k_roundNormal);
             EnableGachaBtn(m_btnGachaUnique, GachaCostKey.k_roundUnique);
         }
+
+        private void OnSelectUnitChanged(Unit unit)
+        {
+            if (!gameObject.activeInHierarchy ||
+                !m_txtUnitName)
+                return;
+
+            if (unit)
+            {
+                m_txtUnitName.text = unit.UnitData.Constant.NameId.ToLocalizationText();
+            }
+            else
+            {
+                m_txtUnitName.text = "";
+            }
+        }
+        
+        #endregion
+        
+        #region # Invoke
+
+        private void Invoke_SelectUnit(Unit unit)
+        {
+            OnSelectUnit?.Invoke(unit);
+        }
         
         public void Invoke_GachaRequestNormal()
         {
@@ -182,5 +259,8 @@ namespace PandaIsPanda
         {
             OnGachaRequest?.Invoke(GachaCostKey.k_roundUnique);
         }
+        
+        #endregion
+        
     }
 }

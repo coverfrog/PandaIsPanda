@@ -1,23 +1,27 @@
 ﻿using System;
+using UnityEngine;
 
 namespace PandaIsPanda
 {
     [Serializable]
     public class StatData
     {
+        [SerializeField] private string m_devName;
+        [SerializeField] private ReactiveProperty<float> m_value;
+        
         public StatConstant Constant { get; }
-
-        public ReactiveProperty<float> Value { get; } 
         
         public StatData(StatConstant statConstant, ulong defaultId)
         {
             Constant = statConstant;
-            Value = new ReactiveProperty<float>(statConstant.DefaultStats[defaultId]);
+
+            m_devName = statConstant.DevName;
+            m_value = new ReactiveProperty<float>(statConstant.DefaultStats[defaultId]);
         }
 
         public void SetValue(float value)
         {
-            Value.Value = value;
+            m_value.Value = value;
         }
     }
 }

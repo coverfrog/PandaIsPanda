@@ -7,6 +7,8 @@ namespace PandaIsPanda
 {
     public class DataManager : MonoBehaviour
     {
+        public LocalizationNation LocalizationNation { get; private set; }
+        
         public Dictionary<ulong, GameStoryData> GameStoryData { get; } = new();
         
         public IReadOnlyDictionary<ulong, RoundConstant> RoundConstants { get; private set; }

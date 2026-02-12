@@ -21,13 +21,6 @@ namespace PandaIsPanda
 
         private GameStoryData m_data;
 
-        private Camera m_cam;
-        
-        private void Awake()
-        {
-            m_cam = Camera.main;
-        }
-
         private void OnDestroy()
         {
             m_enemyPool?.Clear();
@@ -63,45 +56,23 @@ namespace PandaIsPanda
             ui.Open
             (
                 m_data,
-                OnUIGachaRequest
+                OnGachaRequest,
+                OnSelectUnit
             );
             
             Play();
         }
 
+
+
         public void Play()
         {
-            InputManager.Instance.OnPointerClick -= OnPointerClick;
-            InputManager.Instance.OnPointerClick += OnPointerClick;
-            
             m_round.Play();
         }
 
-        #region # OnInput
+        #region # OnUI
         
-        private void OnPointerClick(bool isClick, Vector2 screenPos)
-        {
-            if (isClick)
-            {
-                Ray ray = m_cam.ScreenPointToRay(screenPos);
-                
-                if (!Physics.Raycast(ray, out RaycastHit hit)) 
-                    return;
-                
-                if (hit.collider &&
-                    hit.collider.transform.parent.TryGetComponent(out Unit unit))
-                {
-                            
-                }
-            }
-
-            else
-            {
-                
-            }
-        }
-        
-        private void OnUIGachaRequest(ulong costId)
+        private void OnGachaRequest(ulong costId)
         {
             IReadOnlyDictionary<ulong, GachaConstant> gachaConstants = costId switch
             {
@@ -109,7 +80,6 @@ namespace PandaIsPanda
                 GachaCostKey.k_roundUnique => DataManager.Instance.RoundGachaUniqueConstants,
                 _ => null
             };
-            
 
             if (gachaConstants == null)
                 return;
@@ -150,6 +120,11 @@ namespace PandaIsPanda
             var position = m_pointsAlias.Points[m_data.AliasCount.Value - 1];
             
             unit.Setup(unitData).SetPosition(position);
+        }
+        
+        private void OnSelectUnit(Unit unit)
+        {
+            m_data.SelectedUnit.Value = unit;
         }
 
         #endregion
