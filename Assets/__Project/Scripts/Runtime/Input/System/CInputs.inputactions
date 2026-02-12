@@ -3,7 +3,7 @@
     "name": "CInputs",
     "maps": [
         {
-            "name": "Board",
+            "name": "Player",
             "id": "fcdfb044-3934-43c9-a897-4e6ea1624f91",
             "actions": [
                 {

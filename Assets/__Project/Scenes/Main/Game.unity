@@ -644,12 +644,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PandaIsPanda.CornerGroup
   m_edgeCount: 3
-  m_radius: 6
+  m_radius: 5
   m_gizmoColor: {r: 0.7959391, g: 1, b: 0, a: 1}
   m_points:
-  - {x: 0, y: 0, z: 6}
-  - {x: 5.196152, y: 0, z: -3.0000005}
-  - {x: -5.1961527, y: 0, z: -2.9999995}
+  - {x: 0, y: 0, z: 5}
+  - {x: 4.330127, y: 0, z: -2.5000002}
+  - {x: -4.3301272, y: 0, z: -2.4999995}
 --- !u!1 &1198523213
 GameObject:
   m_ObjectHideFlags: 0

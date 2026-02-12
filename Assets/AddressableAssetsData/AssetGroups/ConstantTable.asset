@@ -50,6 +50,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c8de20c590a78934998679115fdd0350
+    m_Address: constanttable/stat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d175f4764cd94e84686875afbd357c7a
     m_Address: constanttable/round
     m_ReadOnly: 0

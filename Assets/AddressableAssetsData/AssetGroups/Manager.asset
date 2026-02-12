@@ -15,6 +15,11 @@ MonoBehaviour:
   m_GroupName: Manager
   m_GUID: cfd423858d6dc854bb80813537ca86ca
   m_SerializeEntries:
+  - m_GUID: 2f5c2323902ae8e4cae25dc85c5783a7
+    m_Address: manager/input
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4195e0dabfc02064b91932a4ae73e77c
     m_Address: manager/audio
     m_ReadOnly: 0

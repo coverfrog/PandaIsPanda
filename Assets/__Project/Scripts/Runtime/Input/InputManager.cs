@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace PandaIsPandaMvp
+namespace PandaIsPanda
 {
     public class InputManager : MonoBehaviour, IDisposable
     {
@@ -13,11 +13,19 @@ namespace PandaIsPandaMvp
 
         private bool m_isLeftClick;
         
+        public static InputManager Instance { get; private set; }
+
+        private void Awake()
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+
         private void Start()
         {
             m_cInputs = new CInputs();
-            m_cInputs.Board.LeftClick.started   += LeftClick_Click;
-            m_cInputs.Board.LeftClick.canceled  += LeftClick_Click;
+            m_cInputs.Player.LeftClick.started  += LeftClick_Click;
+            m_cInputs.Player.LeftClick.canceled += LeftClick_Click;
             
             m_cInputs.Enable();
         }

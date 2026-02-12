@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace PandaIsPanda
 {
-    public class ItemConstantTable : ScriptableObject, IConstantTable
+    public class UnitConstantTable : ScriptableObject, IConstantTable
     {
-        [SerializeField] private UnityDictionary<ulong, ItemConstant> m_data = new();
+        [SerializeField] private UnityDictionary<ulong, UnitConstant> m_data = new();
 
-        public IReadOnlyDictionary<ulong, ItemConstant> Data 
+        public IReadOnlyDictionary<ulong, UnitConstant> Data
         {
             get
             {
@@ -19,7 +19,7 @@ namespace PandaIsPanda
             }
         }
         
-        private IReadOnlyDictionary<ulong, ItemConstant> m_readOnlyData;
+        private IReadOnlyDictionary<ulong, UnitConstant> m_readOnlyData;
         
         public void Load(IReadOnlyDictionary<int, IReadOnlyDictionary<int, IReadOnlyList<object>>> data)
         {
@@ -31,10 +31,12 @@ namespace PandaIsPanda
                     continue;
                 
                 ulong id = Convert.ToUInt64(columns[0]);
-                ulong nameId = Convert.ToUInt64(columns[1]);
-                string iconPath = Convert.ToString(columns[2]);
+                string devName = Convert.ToString(columns[1]);
+                ulong nameId = Convert.ToUInt64(columns[2]);
+                ulong defaultHpId = Convert.ToUInt64(columns[3]);
+                ulong defaultMpId = Convert.ToUInt64(columns[4]);
                 
-                var constant = new ItemConstant(id, nameId, iconPath);
+                var constant = new UnitConstant(devName, id, nameId, defaultHpId, defaultMpId);
                 
                 m_data.Add(id, constant);
             }
