@@ -160,6 +160,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc06c0649aeb4d459d3e8ba93f7566b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PandaIsPanda.Unit
+  m_followerEntity: {fileID: -2006040226326223482}
 --- !u!114 &-2006040226326223482
 MonoBehaviour:
   m_ObjectHideFlags: 0

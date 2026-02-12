@@ -32,6 +32,8 @@ namespace PandaIsPanda
                 DataManager.Instance.GameStoryData[m_sessionId] = new GameStoryData();
             
             GameStoryData data = DataManager.Instance.GameStoryData[m_sessionId];
+
+            m_pointsAlias.SetEdgeCount(data.AliasMaxCount.Value).Spread();
             
             m_enemyPool = new ObjectPool<Unit>(OnEnemyCreate, OnEnemyGet, OnEnemyRelease, OnEnemyDestroy);
             m_aliasPool = new ObjectPool<Unit>(OnAliasCreate, OnAliasGet, OnAliasRelease, OnAliasDestroy);
@@ -182,11 +184,16 @@ namespace PandaIsPanda
         private void OnAliasGet(Unit unit)
         {
             unit.gameObject.SetActive(true);
+            
+            DataManager.Instance.GameStoryData[m_sessionId].AliasCount.Value++;
+            
         }
 
         private void OnAliasRelease(Unit unit)
         {
             unit.gameObject.SetActive(false);
+            
+            DataManager.Instance.GameStoryData[m_sessionId].AliasCount.Value--;
         }
         
         private void OnAliasDestroy(Unit unit)
@@ -245,10 +252,12 @@ namespace PandaIsPanda
             var unitConstant = DataManager.Instance.UnitConstants[unitId];
             var unitData = new UnitData(unitConstant);
             var unit = m_aliasPool.Get();
+
+            var position = m_pointsAlias.Points[data.AliasCount.Value - 1];
             
-            unit.Setup(unitData);
+            unit.Setup(unitData).SetPosition(position);
             
-            LogUtil.Log($"[{nameof(GameStory)}] 가챠 요청 - {costId} - {unitId}");
+            LogUtil.Log($"[{nameof(GameStory)}] 가챠 요청 - {costId} - {position}");
         }
 
         #endregion

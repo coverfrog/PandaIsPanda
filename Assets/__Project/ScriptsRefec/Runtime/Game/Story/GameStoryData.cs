@@ -7,6 +7,14 @@ namespace PandaIsPanda
     [Serializable]
     public class GameStoryData
     {
+        [SerializeField] private ReactiveProperty<int> m_aliasMaxCount = new(3);
+        
+        public ReactiveProperty<int> AliasMaxCount => m_aliasMaxCount;
+        
+        [SerializeField] private ReactiveProperty<int> m_aliasCount = new(0);
+        
+        public ReactiveProperty<int> AliasCount => m_aliasCount;
+        
         [SerializeField] private ReactiveProperty<int> m_enemyCount = new(0);
 
         public ReactiveProperty<int> EnemyCount => m_enemyCount;

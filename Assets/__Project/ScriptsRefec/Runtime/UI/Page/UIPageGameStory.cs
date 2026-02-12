@@ -20,20 +20,30 @@ namespace PandaIsPanda
         [Header("# References")]
         [SerializeField] private RTLTextMeshPro m_txtRound;
         [SerializeField] private RTLTextMeshPro m_txtTimer;
-        [SerializeField] private RTLTextMeshPro m_txtUnitCount;
+        [SerializeField] private RTLTextMeshPro m_txtAliasCount;
+        [SerializeField] private RTLTextMeshPro m_txtEnemyCount;
         [SerializeField] private RTLTextMeshPro m_txtGold;
         [SerializeField] private RTLTextMeshPro m_txtBamboo;
         [SerializeField] private Button m_btnGachaNormal;
         [SerializeField] private Button m_btnGachaUnique;
 
+        private GameStoryData m_data;
+        
         public void Open
         (
             GameStoryData data,
             GachaRequestHandler onGachaRequest
         )
         {
+            m_data = data;
+            
             OnGachaRequest -= onGachaRequest;
             OnGachaRequest += onGachaRequest;
+            
+            OnAliasCountChanged(data.AliasCount.Value);
+
+            data.AliasCount.OnValueChanged -= OnAliasCountChanged;
+            data.AliasCount.OnValueChanged += OnAliasCountChanged;
             
             OnEnemyCountChanged(data.EnemyCount.Value);
             
@@ -77,40 +87,50 @@ namespace PandaIsPanda
             if (m_txtBamboo)
                 m_txtBamboo.text = $"Bamboo : {bambooCount}";
 
-            EnableGachaBtn(inventoryItems, m_btnGachaNormal, GachaCostKey.k_roundNormal);
-            EnableGachaBtn(inventoryItems, m_btnGachaUnique, GachaCostKey.k_roundUnique);
+            EnableGachaBtn(m_btnGachaNormal, GachaCostKey.k_roundNormal);
+            EnableGachaBtn(m_btnGachaUnique, GachaCostKey.k_roundUnique);
         }
 
-        private void EnableGachaBtn(List<ItemData> inventoryItem, Button button, ulong costId)
+        private void EnableGachaBtn(Button button, ulong costId)
         {
             var enable = true;
-
-            if (inventoryItem != null)
-            {
-                var costItems = DataManager.Instance.GachaCostConstants[costId].CostItems;
             
-                foreach (CountValue<ulong> cv in costItems)
-                {
-                    var haveItems = inventoryItem.Where(item => item.Constant.Id == cv.value).ToList();
-                    if (!haveItems.Any())
-                    {
-                        enable = false;
-                        break;
-                    }
-                
-                    var haveCount = haveItems.Sum(item => item.Count);
-                    if (cv.count > haveCount)
-                    {
-                        enable = false;
-                        break;
-                    }
-                }
-            }
-            else
+            if (m_data.AliasCount.Value >= m_data.AliasMaxCount.Value)
             {
                 enable = false;
             }
 
+            else
+            {
+                var inventoryItem = m_data.InventoryData.Items;
+                
+                if (inventoryItem != null)
+                {
+                    var costItems = DataManager.Instance.GachaCostConstants[costId].CostItems;
+            
+                    foreach (CountValue<ulong> cv in costItems)
+                    {
+                        var haveItems = inventoryItem.Where(item => item.Constant.Id == cv.value).ToList();
+                        if (!haveItems.Any())
+                        {
+                            enable = false;
+                            break;
+                        }
+                
+                        var haveCount = haveItems.Sum(item => item.Count);
+                        if (cv.count > haveCount)
+                        {
+                            enable = false;
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    enable = false;
+                }
+            }
+            
             button.interactable = enable;
         }
 
@@ -135,10 +155,22 @@ namespace PandaIsPanda
         private void OnEnemyCountChanged(int value)
         {
             if (!gameObject.activeInHierarchy ||
-                !m_txtUnitCount)
+                !m_txtEnemyCount)
                 return;
 
-            m_txtUnitCount.text = $"Enemy Count: {value}";
+            m_txtEnemyCount.text = $"Enemy Count: {value}";
+        }
+
+        private void OnAliasCountChanged(int value)
+        {
+            if  (!gameObject.activeInHierarchy ||
+                !m_txtAliasCount)
+                return;
+            
+            m_txtAliasCount.text = $"Alias Count: {value}";
+            
+            EnableGachaBtn(m_btnGachaNormal, GachaCostKey.k_roundNormal);
+            EnableGachaBtn(m_btnGachaUnique, GachaCostKey.k_roundUnique);
         }
         
         public void Invoke_GachaRequestNormal()

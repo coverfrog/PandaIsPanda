@@ -18,6 +18,8 @@ namespace PandaIsPanda
         
         [SerializeField] private List<ItemData> m_items = new();
 
+        public IReadOnlyList<ItemData> Items => m_items;
+        
         public void AddItem(ItemData addItem)
         {
             AddItem(new List<ItemData>() { addItem });

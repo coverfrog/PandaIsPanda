@@ -15,8 +15,14 @@ namespace PandaIsPanda
         [SerializeField] private List<Vector3> m_points = new();
         
         public IReadOnlyList<Vector3> Points => m_points;
+
+        public PointCircleGroup SetEdgeCount(int edgeCount)
+        {
+            m_edgeCount = edgeCount;
+            return this;
+        }
         
-        public void Spread()
+        public PointCircleGroup Spread()
         {
             const float tau = Mathf.PI * 2.0f;
 
@@ -33,7 +39,9 @@ namespace PandaIsPanda
                                 new Vector3(x, 0, z) * m_radius;
                 
                 m_points.Add(point);
-            }            
+            }       
+            
+            return this;
         }
 
         private void OnDrawGizmos()
