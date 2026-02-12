@@ -12,12 +12,12 @@ namespace PandaIsPanda
         
         private IReadOnlyList<Vector3> m_points;
 
-        public void Setup(IReadOnlyList<Vector3> points)
+        public PointFollower SetPoints(IReadOnlyList<Vector3> points)
         {
-            if (TryGetComponent(out m_followerEntity)) {}
-            
+            m_followerEntity = GetComponent<FollowerEntity>();
             m_points = points;
    
+            return this;
         }
 
         public void Follow()

@@ -16,15 +16,13 @@ namespace PandaIsPanda
         [SerializeField] private PointCircleGroup m_pointsEnemy;
         [SerializeField] private PointCircleGroup m_pointsAlias;
         
-        private IObjectPool<Unit> m_enemyPool;
-        private IObjectPool<Unit> m_aliasPool;
+        private IObjectPool<Unit> m_unitPool;
 
         private GameStoryData m_data;
 
         private void OnDestroy()
         {
-            m_enemyPool?.Clear();
-            m_aliasPool?.Clear();
+            m_unitPool?.Clear();
         }
 
         public void Setup()
@@ -38,8 +36,7 @@ namespace PandaIsPanda
 
             m_pointsAlias.SetEdgeCount(m_data.AliasMaxCount.Value).Spread();
             
-            m_enemyPool = new ObjectPool<Unit>(OnEnemyCreate, OnEnemyGet, OnEnemyRelease, OnEnemyDestroy);
-            m_aliasPool = new ObjectPool<Unit>(OnAliasCreate, OnAliasGet, OnAliasRelease, OnAliasDestroy);
+            m_unitPool = new ObjectPool<Unit>(OnUnitCreate, OnUnitGet, OnUnitRelease, OnUnitDestroy);
             
             m_round.Setup
             (
@@ -63,16 +60,37 @@ namespace PandaIsPanda
             Play();
         }
 
-
-
         public void Play()
         {
             m_round.Play();
         }
 
-        #region # OnUI
-        
-        private void OnGachaRequest(ulong costId)
+        private void Spawn(ulong unitId, bool isEnemy)
+        {
+            var constant = DataManager.Instance.UnitConstants[unitId];
+            var data = new UnitData(constant);
+            var unit = m_unitPool.Get().SetData(data);
+            
+            if (isEnemy)
+            {
+                var pointFollower = unit.gameObject.AddComponent<PointFollower>();
+                pointFollower.SetPoints(m_pointsEnemy.Points).Follow();
+
+                m_data.EnemyCount.Value++;
+            }
+
+            else
+            {
+                var unitAutoAttack = unit.gameObject.AddComponent<UnitAutoAttack>();
+                unitAutoAttack.SetUnit(unit).AutoAttack();
+                
+                unit.SetPosition(m_pointsAlias.Points[m_data.AliasCount.Value]);
+
+                m_data.AliasCount.Value++;
+            }
+        }
+
+        private ulong GetUnitId(ulong costId)
         {
             IReadOnlyDictionary<ulong, GachaConstant> gachaConstants = costId switch
             {
@@ -81,10 +99,7 @@ namespace PandaIsPanda
                 _ => null
             };
 
-            if (gachaConstants == null)
-                return;
-
-            double total = gachaConstants.Values.Sum(c => c.Probability);
+            double total = gachaConstants!.Values.Sum(c => c.Probability);
             double rand = new Random().NextDouble() * total;
 
             double cumulative = 0.0f;
@@ -102,24 +117,27 @@ namespace PandaIsPanda
                 break;
             }
 
-            if (gachaConstantSelect == null)
-                return;
-            
+            return gachaConstantSelect!.UnitId;
+        }
+
+        private void ConsumeItems(ulong costId)
+        {
             var costItems = DataManager.Instance.GachaCostConstants[costId].CostItems;
-            var unitId = gachaConstantSelect.UnitId;
             var inventory = m_data.InventoryData;
             
             foreach (CountValue<ulong> cv in costItems)
             {
                 inventory.RemoveItem(cv);
             }
+        }
 
-            var unitConstant = DataManager.Instance.UnitConstants[unitId];
-            var unitData = new UnitData(unitConstant);
-            var unit = m_aliasPool.Get();
-            var position = m_pointsAlias.Points[m_data.AliasCount.Value - 1];
-            
-            unit.Setup(unitData).SetPosition(position);
+        #region # OnUI
+        
+        private void OnGachaRequest(ulong costId)
+        {
+            ulong unitId = GetUnitId(costId);
+            ConsumeItems(costId);
+            Spawn(unitId, false);
         }
         
         private void OnSelectUnit(Unit unit)
@@ -145,7 +163,7 @@ namespace PandaIsPanda
         
         private void OnRoundSecInt(RoundData roundData)
         {
-            // LogUtil.Log($"[{nameof(GameStory)}] 라운드 남은 시간 : {roundData.TimerSecInt}");
+            
         }
         
         private void OnRoundSpawnRequest(SpawnEventData spawnEventData)
@@ -155,16 +173,7 @@ namespace PandaIsPanda
             
             for (int i = 0; i < spawnCount; i++)
             {
-                var unit = m_enemyPool.Get();
-                var unitConstant = DataManager.Instance.UnitConstants[spawnId];
-                var unitData = new UnitData(unitConstant);                
-                
-                unit.Setup(unitData);
-
-                if (unit.gameObject.TryGetComponent(out PointFollower pointFollower))
-                {
-                    pointFollower.Follow();
-                }
+                Spawn(spawnId, true);
             }
 
             spawnEventData.AddCallCount();
@@ -198,64 +207,26 @@ namespace PandaIsPanda
         }
         #endregion
 
-        #region # OnEnemy
+        #region # OnUnit
 
-        private Unit OnEnemyCreate()
-        {
-            var unit = AddressableUtil.Instantiate<Unit>("unit/unit", false);
-            var pointFollower = unit.gameObject.AddComponent<PointFollower>();
-            
-            pointFollower.Setup(m_pointsEnemy.Points);
-            
-            return unit;
-        }
-        
-        private void OnEnemyGet(Unit unit)
-        {
-            unit.gameObject.SetActive(true);
-
-            m_data.EnemyCount.Value++;
-        }
-
-        private void OnEnemyRelease(Unit unit)
-        {
-            unit.gameObject.SetActive(false);
-            
-            m_data.EnemyCount.Value--;
-        }
-        
-        private void OnEnemyDestroy(Unit unit)
-        {
-            Destroy(unit.gameObject);
-        }
-
-        #endregion
-
-        #region # OnAlias
-
-        private Unit OnAliasCreate()
+        private Unit OnUnitCreate()
         {
             var unit = AddressableUtil.Instantiate<Unit>("unit/unit", false);
             
             return unit;
         }
         
-        private void OnAliasGet(Unit unit)
+        private void OnUnitGet(Unit unit)
         {
             unit.gameObject.SetActive(true);
-            
-            m_data.AliasCount.Value++;
-            
         }
 
-        private void OnAliasRelease(Unit unit)
+        private void OnUnitRelease(Unit unit)
         {
             unit.gameObject.SetActive(false);
-            
-            m_data.AliasCount.Value--;
         }
         
-        private void OnAliasDestroy(Unit unit)
+        private void OnUnitDestroy(Unit unit)
         {
             Destroy(unit.gameObject);
         }

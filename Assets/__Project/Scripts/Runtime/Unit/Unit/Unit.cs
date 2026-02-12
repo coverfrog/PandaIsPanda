@@ -14,7 +14,7 @@ namespace PandaIsPanda
 
         public UnitData UnitData => m_unitData;
         
-        public Unit Setup(UnitData unitData)
+        public Unit SetData(UnitData unitData)
         {
             m_unitData = unitData;
             
