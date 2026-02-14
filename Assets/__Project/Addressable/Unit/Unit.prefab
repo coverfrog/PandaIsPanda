@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 9217506812135165343}
   - component: {fileID: 3628481836838843494}
   - component: {fileID: 2935559550596604134}
+  - component: {fileID: 2122570620214654396}
   m_Layer: 0
   m_Name: Capsule
   m_TagString: Untagged
@@ -114,6 +115,19 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2122570620214654396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1394780035504471149}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 041fa099883848e389f79c69e1e751dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PandaIsPanda.UnitColRelative
+  m_unit: {fileID: 7650776662788617644}
 --- !u!1 &6866102065743921088
 GameObject:
   m_ObjectHideFlags: 0
@@ -161,6 +175,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PandaIsPanda.Unit
   m_followerEntity: {fileID: -2006040226326223482}
+  m_unitData:
+    m_constant:
+      m_devName: 
+      m_id: 0
+      m_nameId: 0
+      m_isNormalAttack: 0
+      m_defaultHpId: 0
+      m_defaultMpId: 0
+      m_defaultNormalAttackSpeedId: 0
+    m_isLive: 0
+    m_unitCtrlType: 0
+    m_stats:
+      _keys: 
+      _values: []
 --- !u!114 &-2006040226326223482
 MonoBehaviour:
   m_ObjectHideFlags: 0

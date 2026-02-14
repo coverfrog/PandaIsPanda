@@ -65,13 +65,13 @@ namespace PandaIsPanda
             m_round.Play();
         }
 
-        private void Spawn(ulong unitId, bool isEnemy)
+        private void Spawn(ulong unitId, UnitCtrlType unitCtrlType)
         {
             var constant = DataManager.Instance.UnitConstants[unitId];
-            var data = new UnitData(constant);
+            var data = new UnitData(constant, unitCtrlType);
             var unit = m_unitPool.Get().SetData(data);
             
-            if (isEnemy)
+            if (unitCtrlType == UnitCtrlType.Enemy)
             {
                 var pointFollower = unit.gameObject.AddComponent<PointFollower>();
                 pointFollower.SetPoints(m_pointsEnemy.Points).Follow();
@@ -137,7 +137,7 @@ namespace PandaIsPanda
         {
             ulong unitId = GetUnitId(costId);
             ConsumeItems(costId);
-            Spawn(unitId, false);
+            Spawn(unitId, UnitCtrlType.Alias);
         }
         
         private void OnSelectUnit(Unit unit)
@@ -173,7 +173,7 @@ namespace PandaIsPanda
             
             for (int i = 0; i < spawnCount; i++)
             {
-                Spawn(spawnId, true);
+                Spawn(spawnId, UnitCtrlType.Enemy);
             }
 
             spawnEventData.AddCallCount();

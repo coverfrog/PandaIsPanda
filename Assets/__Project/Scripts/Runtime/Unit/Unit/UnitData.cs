@@ -7,15 +7,22 @@ namespace PandaIsPanda
     public class UnitData
     {
         [SerializeField] private UnitConstant m_constant;
+        [SerializeField] private bool m_isLive = true;
+        [SerializeField] private UnitCtrlType m_unitCtrlType;
         [SerializeField] private UnityDictionary<ulong, StatData> m_stats = new();
         
         public UnitConstant Constant => m_constant;
         
+        public bool IsLive => m_isLive;
+
+        public UnitCtrlType UnitCtrlType => m_unitCtrlType;
+        
         public UnityDictionary<ulong, StatData> Stats => m_stats;
         
-        public UnitData(UnitConstant constant)
+        public UnitData(UnitConstant constant, UnitCtrlType unitCtrlType)
         {
             m_constant = constant;
+            m_unitCtrlType = unitCtrlType;
             
             m_stats.Clear();
             
