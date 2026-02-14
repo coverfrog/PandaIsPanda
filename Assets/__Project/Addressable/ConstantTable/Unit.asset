@@ -22,6 +22,7 @@ MonoBehaviour:
       m_defaultHpId: 1
       m_defaultMpId: 1
       m_defaultNormalAttackSpeedId: 2
+      m_defaultNormalAttackId: 1
     - m_devName: "\uD770\uACF0"
       m_id: 2
       m_nameId: 100002
@@ -29,6 +30,7 @@ MonoBehaviour:
       m_defaultHpId: 2
       m_defaultMpId: 2
       m_defaultNormalAttackSpeedId: 1
+      m_defaultNormalAttackId: 2
     - m_devName: "\uC801\uACF0"
       m_id: 3
       m_nameId: 100003
@@ -36,6 +38,7 @@ MonoBehaviour:
       m_defaultHpId: 3
       m_defaultMpId: 3
       m_defaultNormalAttackSpeedId: 1
+      m_defaultNormalAttackId: 3
     - m_devName: "\uD751\uACF0"
       m_id: 4
       m_nameId: 100004
@@ -43,6 +46,7 @@ MonoBehaviour:
       m_defaultHpId: 4
       m_defaultMpId: 4
       m_defaultNormalAttackSpeedId: 1
+      m_defaultNormalAttackId: 4
     - m_devName: "\uCCAD\uACF0"
       m_id: 5
       m_nameId: 100005
@@ -50,3 +54,4 @@ MonoBehaviour:
       m_defaultHpId: 5
       m_defaultMpId: 5
       m_defaultNormalAttackSpeedId: 1
+      m_defaultNormalAttackId: 5

@@ -22,57 +22,67 @@ namespace PandaIsPanda
             return this;
         }
 
-        private bool Detect(out Unit unit)
+        private bool Detect()
         {
             if (m_target)
             {
                 if (m_target.UnitData.IsLive)
                 {
-                    unit = m_target;
                     return true;
                 }
+
+                m_target = null;
                 
-                else
-                {
-                    m_target = unit = null;
-                    return false;
-                }
+                return false;
             }
 
-            else
+            var cols = Physics.OverlapSphere(transform.position, 10.0f);
+            if (cols.Length == 0)
             {
-                var cols = Physics.OverlapSphere(transform.position, 10.0f);
-                if (cols.Length == 0)
-                {
-                    unit = null;
-                    return false;
-                }
-
-                var enemyList = cols
-                    .Select(c => c.GetComponent<UnitColRelative>())
-                    .Where(ur => ur)
-                    .Where(ur => ur.Unit.UnitData.UnitCtrlType == UnitCtrlType.Enemy)
-                    .ToList();
-
-                if (enemyList.Count == 0)
-                {
-                    unit = null;
-                    return false;
-                }
-
-                var enemy = enemyList
-                    .Select(ur => ur.Unit)
-                    .OrderBy(u => Vector3.Distance(u.transform.position, transform.position))
-                    .FirstOrDefault();
-
-                m_target = unit = enemy;
-                return true;
+                return false;
             }
+
+            var enemyList = cols
+                .Select(c => c.GetComponent<UnitColRelative>())
+                .Where(ur => ur)
+                .Where(ur => ur.Unit.UnitData.UnitCtrlType == UnitCtrlType.Enemy)
+                .ToList();
+
+            if (enemyList.Count == 0)
+            {
+                return false;
+            }
+
+            var enemy = enemyList
+                .Select(ur => ur.Unit)
+                .OrderBy(u => Vector3.Distance(u.transform.position, transform.position))
+                .FirstOrDefault();
+
+            m_target = enemy;
+            m_target!.SetEvents(OnUnitIsLive, null);
+            
+            return true;
         }
 
-        private void Attack(Unit unit)
+        private void OnUnitIsLive(Unit sender, Unit owner, bool isLive)
         {
-            LogUtil.Log("공격?");
+            if (!m_target)
+                return;
+            
+            if (m_target != owner)
+                return;
+
+            m_target = null;
+        }
+
+        private void AttackTarget()
+        {
+            var result = m_owner.AttackTarget(m_target);
+            
+            if (result.isLive)
+                return;
+
+            m_target = null;
         }
 
         private IEnumerator CoAutoAttack()
@@ -88,15 +98,15 @@ namespace PandaIsPanda
             var isCanNormalAttack = true;
             
             var stats = unitData.Stats;
-            var normalAttackInter = 1.0f / stats[StatKey.k_normalAttackSpeed].Value.Value;
+            var normalAttackInter = 1.0f / stats[StatKey.k_normalAttackSpeed].Value;
 
             while (true)
             {
                 if (isCanNormalAttack)
                 {
-                    if (Detect(out Unit unit))
+                    if (Detect())
                     {
-                        Attack(unit);
+                        AttackTarget();
                         isCanNormalAttack = false;
                     }
                     else

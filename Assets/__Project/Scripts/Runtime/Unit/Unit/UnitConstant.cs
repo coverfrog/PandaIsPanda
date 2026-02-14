@@ -13,6 +13,7 @@ namespace PandaIsPanda
         [SerializeField] private ulong m_defaultHpId;
         [SerializeField] private ulong m_defaultMpId;
         [SerializeField] private ulong m_defaultNormalAttackSpeedId;
+        [SerializeField] private ulong m_defaultNormalAttackId;
         
         public string DevName => m_devName;
         public ulong Id => m_id;
@@ -27,7 +28,19 @@ namespace PandaIsPanda
 
         public ulong DefaultNormalSpeedAttackId => m_defaultNormalAttackSpeedId;
 
-        public UnitConstant(string devName, ulong id, ulong nameId, bool isNormalAttack, ulong defaultHpId, ulong defaultMpId, ulong normalAttackSpeedId)
+        public ulong DefaultNormalAttackId => m_defaultNormalAttackId;
+
+        public UnitConstant
+        (
+            string devName,
+            ulong id,
+            ulong nameId,
+            bool isNormalAttack,
+            ulong defaultHpId,
+            ulong defaultMpId,
+            ulong defaultNormalAttackSpeedId,
+            ulong defaultNormalAttackId
+        )
         {
             m_devName = devName;
             m_id = id;
@@ -35,7 +48,8 @@ namespace PandaIsPanda
             m_isNormalAttack = isNormalAttack;
             m_defaultHpId = defaultHpId;
             m_defaultMpId = defaultMpId;
-            m_defaultNormalAttackSpeedId = normalAttackSpeedId;
+            m_defaultNormalAttackSpeedId = defaultNormalAttackSpeedId;
+            m_defaultNormalAttackId = defaultNormalAttackId;
         }
     }
 }

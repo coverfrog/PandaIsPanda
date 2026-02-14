@@ -175,6 +175,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PandaIsPanda.Unit
   m_followerEntity: {fileID: -2006040226326223482}
+  m_unitAttack: {fileID: 0}
   m_unitData:
     m_constant:
       m_devName: 

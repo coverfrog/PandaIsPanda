@@ -33,9 +33,8 @@ namespace PandaIsPanda
                 ulong id = Convert.ToUInt64(columns[0]);
                 string devName = Convert.ToString(columns[1]);
                 ulong nameId = Convert.ToUInt64(columns[2]);
-                string iconPath = Convert.ToString(columns[3]);
-                bool isPercentType = Convert.ToBoolean(columns[4]);
-                int sheetIndex = Convert.ToInt32(columns[5]);
+                bool isPercentType = Convert.ToBoolean(columns[3]);
+                int sheetIndex = Convert.ToInt32(columns[4]);
 
                 UnityDictionary<ulong, float> defaultValues = new();
                 foreach ((int row2, IReadOnlyList<object> columns2) in data[sheetIndex])
@@ -49,7 +48,7 @@ namespace PandaIsPanda
                     defaultValues.Add(level, value);
                 }
 
-                var constant = new StatConstant(devName, id, nameId, iconPath, isPercentType, defaultValues);
+                var constant = new StatConstant(devName, id, nameId, isPercentType, defaultValues);
 
                 m_data.Add(id, constant);
             }

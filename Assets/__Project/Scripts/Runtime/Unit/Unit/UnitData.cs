@@ -18,8 +18,12 @@ namespace PandaIsPanda
         public UnitCtrlType UnitCtrlType => m_unitCtrlType;
         
         public UnityDictionary<ulong, StatData> Stats => m_stats;
-        
-        public UnitData(UnitConstant constant, UnitCtrlType unitCtrlType)
+
+        public UnitData
+        (
+            UnitConstant constant,
+            UnitCtrlType unitCtrlType
+        )
         {
             m_constant = constant;
             m_unitCtrlType = unitCtrlType;
@@ -37,6 +41,20 @@ namespace PandaIsPanda
             m_stats.Add(StatKey.k_normalAttackSpeed, 
                     new StatData(DataManager.Instance.StatConstants[StatKey.k_normalAttackSpeed], 
                         constant.DefaultNormalSpeedAttackId));
+            
+            m_stats.Add(StatKey.k_normalAttack, 
+                new StatData(DataManager.Instance.StatConstants[StatKey.k_normalAttack], 
+                    constant.DefaultNormalAttackId));
+        }
+        
+        public UnitData SetIsLive(Unit _, bool isLive)
+        {
+            m_isLive = isLive; return this;
+        }
+
+        public UnitData SetHp(Unit _, float hp)
+        {
+            m_stats[StatKey.k_hp].SetValue(hp); return this;
         }
     }
 }

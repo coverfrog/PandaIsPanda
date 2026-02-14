@@ -36,9 +36,20 @@ namespace PandaIsPanda
                 bool isNormalAttack = Convert.ToBoolean(columns[3]);
                 ulong defaultHpId = Convert.ToUInt64(columns[4]);
                 ulong defaultMpId = Convert.ToUInt64(columns[5]);
-                ulong normalAttackSpeedId = Convert.ToUInt64(columns[6]);
-                
-                var constant = new UnitConstant(devName, id, nameId, isNormalAttack, defaultHpId, defaultMpId, normalAttackSpeedId);
+                ulong defaultNormalAttackSpeedId = Convert.ToUInt64(columns[6]);
+                ulong defaultNormalAttackId = Convert.ToUInt64(columns[7]);
+
+                var constant = new UnitConstant
+                (
+                    devName,
+                    id,
+                    nameId,
+                    isNormalAttack,
+                    defaultHpId,
+                    defaultMpId,
+                    defaultNormalAttackSpeedId,
+                    defaultNormalAttackId
+                );
                 
                 m_data.Add(id, constant);
             }

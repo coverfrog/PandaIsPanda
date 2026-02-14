@@ -69,7 +69,7 @@ namespace PandaIsPanda
         {
             var constant = DataManager.Instance.UnitConstants[unitId];
             var data = new UnitData(constant, unitCtrlType);
-            var unit = m_unitPool.Get().SetData(data);
+            var unit = m_unitPool.Get().SetData(data).SetPool(m_unitPool).SetEvents(OnUnitIsLive, OnUnitHp);
             
             if (unitCtrlType == UnitCtrlType.Enemy)
             {
@@ -90,6 +90,7 @@ namespace PandaIsPanda
             }
         }
 
+    
         private ulong GetUnitId(ulong costId)
         {
             IReadOnlyDictionary<ulong, GachaConstant> gachaConstants = costId switch
@@ -218,17 +219,37 @@ namespace PandaIsPanda
         
         private void OnUnitGet(Unit unit)
         {
+            if (!unit) return;
+            
             unit.gameObject.SetActive(true);
         }
 
         private void OnUnitRelease(Unit unit)
         {
+            if (!unit) return;
+            
             unit.gameObject.SetActive(false);
         }
         
         private void OnUnitDestroy(Unit unit)
         {
+            if (!unit) return;
+            
             Destroy(unit.gameObject);
+        }
+
+        #endregion
+
+        #region # OnUnit
+
+        private void OnUnitHp(Unit sender, Unit unit, float hp)
+        {
+            
+        }
+
+        private void OnUnitIsLive(Unit sender, Unit unit, bool isLive)
+        {
+            
         }
 
         #endregion
